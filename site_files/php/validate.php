@@ -1,14 +1,14 @@
 <?php
-session_start();		//start the session
+session_start();		    //start the session
 include('db_connect.php');	//this holds all the database connection info
 
 /**********************************************
  *		LOGIN REQUEST	
  *********************************************/
 if($_POST["requestType"]==="login"){
-	//Connect to database server
-	mysql_connect($dbhost, $dbuser, $dbpass) 
-		or die ("Unable to connect to database! Please try again later.");
+    //Connect to database server
+    mysql_connect($dbhost, $dbuser, $dbpass) 
+        or die ("Unable to connect to database! Please try again later.");
 	//Select the correct database
 	mysql_select_db($dbname)
 		or die ("Unable to find database!");
