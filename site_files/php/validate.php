@@ -1,6 +1,6 @@
 <?php
-session_start();		    //start the session
-include('db_connect.php');	//this holds all the database connection info
+session_start();            //start the session
+include('db_connect.php');  //this holds all the database connection info
 
 /**********************************************
  *              LOGIN REQUEST	
