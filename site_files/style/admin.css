@@ -1,7 +1,8 @@
 body {
     font-family: "HelveticaNeue-Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
-    color: rgb(99, 107, 117);
+    color: white;
     margin: 0px;
+    background-color:#561A5F;
 }
 
 header {
@@ -14,6 +15,7 @@ header {
 .content{
   margin: 32px;
 }
+
 #client_list{
   margin: 32px 0;
 }
