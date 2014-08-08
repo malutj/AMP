@@ -1,0 +1,19 @@
+body {
+    font-family: "HelveticaNeue-Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: rgb(99, 107, 117);
+    margin: 0px;
+}
+
+header {
+    width: 100%;
+    z-index: 100;
+    margin: 0px auto;
+    padding: 32px 32px;
+    background: white;
+}
+.content{
+  margin: 32px;
+}
+#client_list{
+  margin: 32px 0;
+}
