@@ -3,12 +3,12 @@ session_start();		    //start the session
 include('db_connect.php');	//this holds all the database connection info
 
 /**********************************************
- *		LOGIN REQUEST	
+ *              LOGIN REQUEST	
  *********************************************/
 if($_POST["requestType"]==="login"){
     //Connect to database server
     mysql_connect($dbhost, $dbuser, $dbpass) 
-    or die ("Unable to connect to database! Please try again later.");
+        or die ("Unable to connect to database! Please try again later.");
     //Select the correct database
     mysql_select_db($dbname)
         or die ("Unable to find database!");
@@ -50,7 +50,7 @@ if($_POST["requestType"]==="login"){
     }
 }
 /**********************************************
- *		VALIDATION REQUEST	
+ *          VALIDATION REQUEST	
  *********************************************/
 elseif($_POST["requestType"]==="validate"){
     $return;
@@ -67,7 +67,7 @@ elseif($_POST["requestType"]==="validate"){
 }
 
 /**********************************************
- *		LOGOUT REQUEST	
+ *              LOGOUT REQUEST	
  *********************************************/
 elseif($_POST["requestType"]==="logout"){
     session_destroy();
