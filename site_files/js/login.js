@@ -43,32 +43,35 @@ $(document).ready(function(){
               .css("color","gray");
 	    }
 	});
-	//Handles login button press
+	
+//Checks whether the user is logged in or not on load
+	$.post("./php/validate.php",
+		{requestType : 'validate'},
+		function(result){
+			if(result.status==="logged in"){
+				window.location = "admin.html";
+			}
+		},"json");
+	
+//Handles login button press
 	$("#login_button").click(function(){
 		if(validate()){
 			//post data to login.php and handle response
 		}
 	});
-
 });
 
 function validate(){
 	var passed = true;
 	if($("#username").val() == ""){
 		passed = false;
-		/*
-		
-			change text box color
-
-		*/
+		$("#username_status").html("Please enter a username");
+		setTimeout(function(){$("#username_status").html("");}, 3000);
 	}
 	if($("#password").val() == ""){
 		passed = false;
-		/*
-		
-			change text box color
-
-		*/
+		$("#password_status").html("Please enter a password");
+		setTimeout(function(){$("#password_status").html("");}, 3000);
 	}
 	return passed;
 }
