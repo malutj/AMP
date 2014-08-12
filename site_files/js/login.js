@@ -56,7 +56,17 @@ $(document).ready(function(){
 //Handles login button press
 	$("#login_button").click(function(){
 		if(validate()){
-			//post data to login.php and handle response
+			$.post("./php/validate.php",
+        		{requestType : 'validate'},
+        		function(result){
+        			if(result.status==="logged in"){
+        				window.location = "admin.html";
+        			}
+        			else{
+        			    $("#login_status").html(result.status);
+		                setTimeout(function(){$("#password_status").html("");}, 3000);
+        			}
+        		},"json");
 		}
 	});
 });
