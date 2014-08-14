@@ -115,7 +115,8 @@ function generate_client_code($name){
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function create_client_directory($name, $code){
     //dirname(dirname(__FILE__));
-    $dir_path = "../client_files/".$name."_".$code;
+    $name_temp = str_replace(" ", "_", $name); //Replace all spaces in name with underscore
+    $dir_path = "../client_files/".$name_temp."_".$code;
     if(!file_exists($dir_path)){
         mkdir($dir_path);
     }
@@ -128,14 +129,25 @@ function create_client_directory($name, $code){
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function delete_client(){
     $client_id = $_POST["client_id"];
-    $query = "DELETE FROM client_table WHERE client_id = $client_id";
-	if(mysql_query($query)){
-		$response = array("status"=>"success");
-		echo json_encode($response);
-	}
-	else{
-		$response = array("status"=>"fail");
-		echo json_encode($response);
-	}
+    try{
+    	$query = "DELETE FROM client_table WHERE client_id = :client_id";
+    	$stmt = $pdo->prepare($query);
+    	$stmt->bindParam(':client_id', $client_id);
+    	$result = $stmt->execute();
+    	if($result){
+    		$reponse['status'] = 'success';
+    	}
+    	else{
+    	    $response['status'] = 'fail';
+    	    $response['msg'] = "There was an error deleting this client";
+    	}
+    }
+    catch(PDOException $e){
+        $response['status'] = 'fail';
+    	$response['msg'] = $e->getMessage();
+    }
+    
+    echo json_encode($response);
+    die();
 }
 ?>
