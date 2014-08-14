@@ -1,6 +1,5 @@
 $(document).ready(function(){
 //----------ACTIONS----------//
-
   //Checks whether the user is logged in or not on load
   $.post("./php/validate.php",
     {requestType : 'validate'},
@@ -9,18 +8,18 @@ $(document).ready(function(){
         window.location = "login.html";
       }
       else{
-        populate_client_list();
+        //populate_client_list();
       }
     },
     "json");
 
   //handles the logout button
   $("#logout_button").click(function(){
-  $.post("./php/validate.php", 
-        {requestType : 'logout'}, 
-        function(result){
-          window.location = "login.html";
-        });
+    $.post("./php/validate.php", 
+          {requestType : 'logout'}, 
+          function(result){
+            window.location = "login.html";
+    });
   });
 
   //handles the add button

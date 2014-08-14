@@ -44,27 +44,23 @@ $(document).ready(function(){
 	    }
 	});
 	
-//Checks whether the user is logged in or not on load
-	$.post("./php/validate.php",
-		{requestType : 'validate'},
-		function(result){
-			if(result.status==="logged in"){
-				window.location = "admin.html";
-			}
-		},"json");
+
 	
 //Handles login button press
 	$("#login_button").click(function(){
 		if(validate()){
 			$.post("./php/validate.php",
-        		{requestType : 'validate'},
+        		{requestType :  'login',
+             username    :  $("#username").val(),
+             password    :  $("#password").val()
+            },
         		function(result){
-        			if(result.status==="logged in"){
+        			if(result.status==="success"){
         				window.location = "admin.html";
         			}
         			else{
-        			    $("#login_status").html(result.status);
-		                setTimeout(function(){$("#password_status").html("");}, 3000);
+        			    $("#login_status").html(result.msg);
+		                setTimeout(function(){$("#login_status").html("");}, 3000);
         			}
         		},"json");
 		}
@@ -73,15 +69,26 @@ $(document).ready(function(){
 
 function validate(){
 	var passed = true;
-	if($("#username").val() == ""){
+	if($("#username").val() === " USERNAME"){
 		passed = false;
 		$("#username_status").html("Please enter a username");
 		setTimeout(function(){$("#username_status").html("");}, 3000);
 	}
-	if($("#password").val() == ""){
+	if($("#password").val() === " PASSWORD"){
 		passed = false;
 		$("#password_status").html("Please enter a password");
 		setTimeout(function(){$("#password_status").html("");}, 3000);
 	}
 	return passed;
+}
+
+function check_login_status(){
+  //Checks whether the user is logged in or not
+	$.post("./php/validate.php",
+		{requestType : 'validate'},
+		function(result){
+			if(result.status==="logged in"){
+				window.location = "admin.html";
+			}
+		},"json");
 }
