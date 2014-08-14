@@ -8,7 +8,7 @@ $(document).ready(function(){
         window.location = "login.html";
       }
       else{
-        fetch_client_list();
+        load_client_list();
       }
     },
     "json");
@@ -41,9 +41,9 @@ $(document).ready(function(){
         }, "json");
   });
 });
-function fetch_client_list(){
+function load_client_list(){
    $.get("./php/clients.php",
-    {request_type : 'fetch'},
+    {request_type : 'load'},
     function(result){
       if(result.status==='success'){
         client_list = result.client_list;

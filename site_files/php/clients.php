@@ -25,16 +25,16 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $request_type = (empty($_GET['request_type'])) ? $_POST["request_type"] : $_GET['request_type'];
 
 //determine the request type and call the appropriate function to handle the request
-if($request_type==="load"){fetch_clients();}
-elseif($request_type==="add"){add_client();}
-elseif($request_type==="delete"){delete_client();}
+if($request_type==="load"){load_clients($pdo);}
+elseif($request_type==="add"){add_client($pdo);}
+elseif($request_type==="delete"){delete_client($pdo);}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * Desc: Fetches all the client data
 * Param: void
 * Return: void
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-function fetch_clients(){
+function load_clients($pdo){
     $client_list = array();
     try{
         //Execute the query
@@ -45,7 +45,7 @@ function fetch_clients(){
             }
         }
         $response['status'] = 'success';
-        $response['client_list'] = $clients;
+        $response['client_list'] = $client_list;
     }
     catch(PDOException $e){
         $response['status'] = 'fail';
@@ -60,7 +60,7 @@ function fetch_clients(){
 * Param: void
 * Return: void
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-function add_client(){
+function add_client($pdo){
     //Create client variables
     $client_name = strip_tags($_POST["client_name"]);   //strip tags from client name
     $client_code = generate_client_code($client_name);  //generate the client code
@@ -127,7 +127,7 @@ function create_client_directory($name, $code){
 * Param: void
 * Return: void
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-function delete_client(){
+function delete_client($pdo){
     $client_id = $_POST["client_id"];
     try{
     	$query = "DELETE FROM client_table WHERE client_id = :client_id";
