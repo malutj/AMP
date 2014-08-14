@@ -42,7 +42,14 @@ $(document).ready(function(){
   });
 });
 function fetch_client_list(){
-   
+   $.get("./php/clients.php",
+    {request_type : 'fetch'},
+    function(result){
+      if(result.status==='success'){
+        client_list = result.client_list;
+        populate_client_list();
+      }
+    }, 'json');
 }
 function populate_client_list(){
   s = "";
