@@ -47,7 +47,8 @@ $(document).ready(function(){
 
 	
 //Handles login button press
-	$("#login_button").click(function(){
+	$("#login_button").click(function(e){
+        e.preventDefault();
 		if(validate()){
 			$.post("./php/validate.php",
         		{   request_type :  'login',
