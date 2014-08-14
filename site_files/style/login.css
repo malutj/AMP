@@ -15,7 +15,7 @@ header {
 .content{
   margin: 32px;
 }
-input[type=text]{
+input{
   color:gray;
   height:25px;
 }
