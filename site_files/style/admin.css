@@ -15,7 +15,48 @@ header {
 .content{
   margin: 32px;
 }
+input{
+  font-size:15px;
+  height:25px;
+}
 
-#client_list{
-  margin: 32px 0;
+
+a.tt-button {
+  background-image:url(http://www.ampupmypractice.com/wp-content/themes/Sterling/images/shortcodes/button-sprite.png);
+  text-decoration:none;
+  font-size:13px;
+  font-weight:700;
+  height:20px;
+  line-height:12px;
+  border-radius:3px;
+  text-shadow:0 1px 0 rgba(255, 255, 255, 0.4);
+  box-shadow:0 1px 1px rgba(0, 0, 0, 0.08);
+  display:inline-block;
+  padding:8px 10px 0;
+}
+
+
+a.tt-button.green {
+  background-position:0 -252px;
+  border:1px solid #ADC671;
+  color:#5D7731;
+}
+
+a.tt-button.green:hover {
+  border:1px solid #8BB14D;
+  background-position:0 -280px;
+}
+
+.box{
+  border: solid 1px white;
+  margin-bottom:30px;
+}
+.boxheader{
+  background-color:white;
+  color:#561A5F;
+  font-weight:bold;
+  padding:5px;
+}
+.boxcontent{
+  padding:5px;
 }
