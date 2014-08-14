@@ -8,7 +8,8 @@ $(document).ready(function(){
         window.location = "login.html";
       }
       else{
-        //populate_client_list();
+        global client_list = result.client_list;
+        populate_client_list();
       }
     },
     "json");
@@ -41,6 +42,16 @@ $(document).ready(function(){
         }, "json");
   });
 });
+
+function populate_client_list(){
+  s = "";
+  $.each(client_list, function(index, val){
+    s = s+"<div class='client'>";
+    s = s+val.name+"<br>"+val.code;
+    s = s+"</div>";
+  });
+  $("#client_list").html(s);
+}
 
 
 
