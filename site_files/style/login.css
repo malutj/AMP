@@ -1,0 +1,51 @@
+body {
+    font-family: "HelveticaNeue-Regular","Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: white;
+    margin: 0px;
+    background-color:#561A5F;
+}
+
+header {
+    width: 100%;
+    z-index: 100;
+    margin: 0px auto;
+    padding: 32px 32px;
+    background: white;
+}
+.content{
+  margin: 32px;
+}
+input[type=text]{
+  color:gray;
+  height:25px;
+}
+
+#client_list{
+  margin: 32px 0;
+}
+
+a.tt-button {
+  background-image:url(http://www.ampupmypractice.com/wp-content/themes/Sterling/images/shortcodes/button-sprite.png);
+  text-decoration:none;
+  font-size:13px;
+  font-weight:700;
+  height:20px;
+  line-height:12px;
+  border-radius:3px;
+  text-shadow:0 1px 0 rgba(255, 255, 255, 0.4);
+  box-shadow:0 1px 1px rgba(0, 0, 0, 0.08);
+  display:inline-block;
+  padding:8px 10px 0;
+}
+
+
+a.tt-button.green {
+  background-position:0 -252px;
+  border:1px solid #ADC671;
+  color:#5D7731;
+}
+
+a.tt-button.green:hover {
+  border:1px solid #8BB14D;
+  background-position:0 -280px;
+}
