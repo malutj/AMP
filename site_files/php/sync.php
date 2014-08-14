@@ -4,47 +4,106 @@ ini_set('display_errors', 'On');
 
 //include the database connection info
 include('database_connect.php');
-
-//global vars
-$app_code = "j5K4F98j3vnME57G10f";
-$common_dir = "../client_files/common";
-$response = array();
-$common_file_list = array();
-$unique_file_list = array();
+include('global.php');
 
 //verify that request came from app
 if(empty($_POST['app_code']) || $_POST['app_code'] != $app_code){
     echo("Sorry, we don't recognize the origination of this request.");
-    die();
+    exit;
 }
 
-//fetch list of all common files and save paths and mod dates
+//create PDO object
+try{
+    $pdo = new PDO($dbinfo, $dbuser, $dbpass);
+}
+catch (PDOException $e){
+    echo("Error [".$e->getMessage()."]");
+    exit;
+}
+
+//fetch list of paths for all common files
 $common_file_list = get_file_list($common_dir);
 
-//create PDO object
-
-//get directory location for this client
-
-//fetch list of all client-specific files save paths and mod dates
+//fetch list of paths for all client-specific files
+$client_dir = get_client_directory();
+$unique_file_list = get_file_list();
 
 //overwrite common files with client-specific files where required
+$merged_list = merge_file_lists($common_file_list, $unique_file_list);
 
-//return client file list
+//get file mod dates
+$result = get_file_dates($merged_list);
 
+$response['status'] = 'success';
+$response['file_list'] = $result;
+echo json_encode($response);
+exit;
 
 function get_file_list($dir){
-    //get list of all files/directories inside $dir
+    //get list of all files/directories inside main directory
     $f = array_diff(scandir($dir), array('..', '.'));
-    $dir_list = array();
+
     //iterate through file array and dig out each directory
-    do{
-        foreach($f as &$entry){
-            if(is_dir($dir.$entry)){
-                array_push
-            }
+    for($i = 0; $i < count($f); $i++){
+        $entry = $f[$i];
+        $path = $dir.$entry;
+        //entry is a directory
+        if(is_dir($path)){
+            //grab all files in directory
+            $temp = array_diff(scandir($path), array('..', '.'));
+            //append directory name to each entry
+            foreach($temp as &$t){$t = $entry.'/'.$t;}
+            //remove the entry from the file array
+            unset($f[$i]);
+            //decrement i
+            $i--;
+            //re-order the array
+            array_values($f);
+            //add temp array to file array
+            array_merge($f, $temp);
         }
-    }while(count($dir_list));
+    }
+    return $f;
+}
+
+function get_client_directory(){
+    try{
+        $query = 'SELECT name FROM clients WHERE clients.code = :client_code';
+        $stmt = $pdo->prepare($query);
+        $stmt->bindParam(':client_code', strip_tags($_POST['client_code']));
+        if($stmt->execute()){
+            $row = $stmt.fetch();
+            return $main_dir.'/'.str_replace(" ", "_", $row['name']).'_'.$code;
+        }
+    }
+    catch(PDOException $e){
+        echo("Error [".$e->getMessage()."]");
+        exit;
+    }
+}
+
+function merge_file_lists($c, $u){
+    //create all three file lists
+    $common_files = array_diff($c, $u);             //files that are only in common folder
+    $unique_files = array_diff($u, $c);             //files that are only in client folder
+    $duplicate_files = array_intersect($u, $c);     //common files we're going to replace
     
+    //merge unique/duplicate and prepend the client's directory
+    $result = array_merge($unique_files, $duplicate_files);
+    foreach($result as &$f){$f=$client_dir.'/'.$f;}
     
+    //prepend common directory and add files to result array
+    foreach($common_files as &$f){$f=$common_dir.'/'.$f;}
+    $result = array_merge($result, $common_files);
+    
+    return $result;
+}
+
+function get_file_dates($f){
+    $result = array();
+    foreach($f as $e){
+        array_push($result, array($e, filemtime($e)));
+    }
+    return $result;
 }
 ?>
