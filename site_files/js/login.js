@@ -50,17 +50,17 @@ $(document).ready(function(){
 	$("#login_button").click(function(){
 		if(validate()){
 			$.post("./php/validate.php",
-        		{requestType :  'login',
-             username    :  $("#username").val(),
-             password    :  $("#password").val()
-            },
+        		{   request_type :  'login',
+                    username    :  $("#username").val(),
+                    password    :  $("#password").val()
+                },
         		function(result){
         			if(result.status==="success"){
         				window.location = "admin.html";
         			}
         			else{
         			    $("#login_status").html(result.msg);
-		                setTimeout(function(){$("#login_status").html("");}, 3000);
+    	                setTimeout(function(){$("#login_status").html("");}, 3000);
         			}
         		},"json");
 		}
@@ -85,7 +85,7 @@ function validate(){
 function check_login_status(){
   //Checks whether the user is logged in or not
 	$.post("./php/validate.php",
-		{requestType : 'validate'},
+		{request_type : 'validate'},
 		function(result){
 			if(result.status==="logged in"){
 				window.location = "admin.html";
