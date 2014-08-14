@@ -1,15 +1,28 @@
 <?php
-session_start();
-include('db_connect.php');
+session_start();            //start the session	
+include('db_connect.php');  //this holds all the database connection info
 
-//connect to database server
-mysql_connect($dbhost, $dbuser, $dbpass) 
-	or die ("Unable to connect to database! Please try again later.");
-//select the correct database
-mysql_select_db($dbname)
-	or die ("Unable to find database!");
-//set the request type
-$request_type = $_POST["requestType"];
+//Turn error reporting on
+ini_set('display_errors', 'On');
+
+//create response array
+$response = array();
+
+//Connect to the database
+try {
+  $pdo = new PDO($dbinfo, $dbuser, $dbpass);
+} 
+catch (PDOException $e) {
+  $response['status'] = 'error';
+  $response['msg'] = "Connection problem [".$e->getMessage()."]";
+  echo json_encode($response);
+  exit();
+}
+//Set PDO to throw exceptions
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+//get the request type
+$request_type = (empty($_GET['request_type'])) ? $_POST["request_type"] : $_GET['request_type'];
 
 //determine the request type and call the appropriate function to handle the request
 if($request_type==="load"){fetch_clients();}
@@ -29,8 +42,8 @@ function fetch_clients(){
 		while($row = mysql_fetch_array($result)){
 			array_push($data, $row);
 		}
-		$return = array("status"=>"success", "data"=>$data);
-		echo json_encode($return);
+		$response = array("status"=>"success", "data"=>$data);
+		echo json_encode($response);
 	}
 }
 
@@ -40,22 +53,37 @@ function fetch_clients(){
 * Return: void
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function add_client(){
-    //create client variables
-    $client_name = strip_tags($_POST["client_name"]);
+    //Create client variables
+    $client_name = strip_tags($_POST["client_name"]);   //strip tags from client name
     $client_code = generate_client_code($client_name);  //generate the client code
-    //create and run the query
-    $query = "INSERT INTO client_table (name, code) VALUES ('$client_name', '$client_code')";
-	$result = mysql_query($query);  
-	if($result){
-	    //create the new directory
-	    generate_client_directory($client_name, $client_code);
-		$return = array('status'=>'success', 'code'=>$client_code);
-		echo json_encode($return);
-	}
-	else{
-		$return = array('status'=>'fail');
-		echo json_encode($return);
-	}
+    try{
+        //Create the query
+        $query = "INSERT INTO clients (name, code) VALUES (:client_name, :client_code)";
+        $stmt = $pdo->prepare($query);
+        //Start PDO transaction
+        $pdo->beginTransaction();
+        //Execute query
+        $result = $stmt->execute(array(':client_name'=>$client_name, ':client_code'=>$client_code));
+    	 
+    	if($result){
+    	    //create the new directory
+    	    generate_client_directory($client_name, $client_code);
+    		$response['status'] = 'success';
+    		$response['code'] = $client_code;
+    	}
+    	else{
+    		if($stmt->errorCode() == "23000"){
+    		    $response['status'] = 'fail';
+                $return['msg'] = "That client name already exists";
+            }
+    	}
+    }
+    catch(PDOException $e){
+        $response['status'] = 'fail';
+        $response['msg'] = $e->getMessage();
+    }
+    echo json_encode($response);
+    die();
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -96,12 +124,12 @@ function delete_client(){
     $client_id = $_POST["client_id"];
     $query = "DELETE FROM client_table WHERE client_id = $client_id";
 	if(mysql_query($query)){
-		$return = array("status"=>"success");
-		echo json_encode($return);
+		$response = array("status"=>"success");
+		echo json_encode($response);
 	}
 	else{
-		$return = array("status"=>"fail");
-		echo json_encode($return);
+		$response = array("status"=>"fail");
+		echo json_encode($response);
 	}
 }
 ?>
