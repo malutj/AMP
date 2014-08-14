@@ -2,10 +2,6 @@
 //Turn on error reporting
 ini_set('display_errors', 'On');
 
-//global variables
-$app_code = "j5K4F98j3vnME57G10f";
-$dir = "../client_files/";
-
 //verify that request came from app
 if(empty($_POST['app_code']) || $_POST['app_code'] != $app_code){
     echo("Sorry, we don't recognize the origination of this request.");
@@ -13,7 +9,7 @@ if(empty($_POST['app_code']) || $_POST['app_code'] != $app_code){
 }
 
 //get POST variables
-$f = $dir.$_POST['file'];
+$f = $_POST['file'];
 
 //send the file
 if (file_exists($f)){
