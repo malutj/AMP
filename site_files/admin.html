@@ -12,33 +12,27 @@
       </a>
     </header>
     <div class="content">
-      <input type="button" id="logout_button" value="Logout"><br><br>
-      Admin Page<br>
-      <table>
-        <tr>
-          <td style = "border:solid 1px white">
-            <div id="add_client_box">
-              <table>
-                <tr>
-                  <td>Add Client</td>
-                  <td></td>
-                </tr>
-                <tr>
-                  <td>Client Name</td>
-                  <td><input type="text" id="client_name"></td>
-                </tr>
-                <tr>
-                  <td></td>
-                  <td><input type="submit" id="add_button" value="Add"></td>
-                </tr>
-              </table>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td style = "border:solid 1px white"></td>
-        </tr>
-      </table>
+      <a class="tt-button green" href="" id="logout_button">Logout</a><br><br>
+      <div class="box">
+        <div class="boxheader">Add Client</div>
+        <div class="boxcontent">
+          <table>
+            <tr>
+              <td>Client Name</td>
+              <td><input type="text" id="client_name"></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><a class="tt-button green" href="" id="add_button">Add</a></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="box">
+        <div class="boxheader">Client List</div>
+        <div class="boxcontent">
+        </div>
+      </div>
     </div>
   </body>
 </html>
