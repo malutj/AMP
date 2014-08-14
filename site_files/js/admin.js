@@ -8,8 +8,7 @@ $(document).ready(function(){
         window.location = "login.html";
       }
       else{
-        global client_list = result.client_list;
-        populate_client_list();
+        fetch_client_list();
       }
     },
     "json");
@@ -42,7 +41,9 @@ $(document).ready(function(){
         }, "json");
   });
 });
-
+function fetch_client_list(){
+   
+}
 function populate_client_list(){
   s = "";
   $.each(client_list, function(index, val){
