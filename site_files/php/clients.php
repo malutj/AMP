@@ -10,13 +10,13 @@ $response = array();
 
 //Connect to the database
 try {
-  $pdo = new PDO($dbinfo, $dbuser, $dbpass);
+    $pdo = new PDO($dbinfo, $dbuser, $dbpass);
 } 
 catch (PDOException $e) {
-  $response['status'] = 'error';
-  $response['msg'] = "Connection problem [".$e->getMessage()."]";
-  echo json_encode($response);
-  exit();
+    $response['status'] = 'error';
+    $response['msg'] = "Connection problem [".$e->getMessage()."]";
+    echo json_encode($response);
+    exit();
 }
 //Set PDO to throw exceptions
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -35,16 +35,24 @@ elseif($request_type==="delete"){delete_client();}
 * Return: void
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function fetch_clients(){
-	$query = "SELECT * FROM client_table";
-	$result = mysql_query($query);
-	if($result){
-		$data = array();
-		while($row = mysql_fetch_array($result)){
-			array_push($data, $row);
-		}
-		$response = array("status"=>"success", "data"=>$data);
-		echo json_encode($response);
-	}
+    $client_list = array();
+    try{
+        //Execute the query
+        $result = $stmt = $pdo->query("SELECT * FROM clients");
+        if($result){
+            while($row=$stmt->fetch(PDO::FETCH_ASSOC)){
+                array_push($client_list, $row);
+            }
+        }
+        $response['status'] = 'success';
+        $response['client_list'] = $clients;
+    }
+    catch(PDOException $e){
+        $response['status'] = 'fail';
+        $response['msg'] = $e->getMessage();
+    }
+    echo json_encode($response);
+    die();
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -60,8 +68,6 @@ function add_client(){
         //Create the query
         $query = "INSERT INTO clients (name, code) VALUES (:client_name, :client_code)";
         $stmt = $pdo->prepare($query);
-        //Start PDO transaction
-        $pdo->beginTransaction();
         //Execute query
         $result = $stmt->execute(array(':client_name'=>$client_name, ':client_code'=>$client_code));
     	 
