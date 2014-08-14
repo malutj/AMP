@@ -5,13 +5,16 @@ include('db_connect.php');  //this holds all the database connection info
 //Turn error reporting on
 ini_set('display_errors', 'On');
 
+//get the request type
+$request_type = (empty($_GET['request_type'])) ? $_POST["request_type"] : $_GET['request_type'];
+
 //create response array
 $return = array();
 
 /**********************************************
  *              LOGIN REQUEST	
  *********************************************/
-if($_POST["requestType"]==="login"){
+if($request_type==="login"){
     //Connect to the database
     try {
       $pdo = new PDO($dbinfo, $dbuser, $dbpass);
@@ -22,6 +25,7 @@ if($_POST["requestType"]==="login"){
       echo json_encode($return);
       exit();
     }
+    //Set PDO to throw exceptions
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     //Username and password from POST...stripped of tags
@@ -61,7 +65,7 @@ if($_POST["requestType"]==="login"){
 /**********************************************
  *          VALIDATION REQUEST	
  *********************************************/
-elseif($_POST["requestType"]==="validate"){
+elseif($request_type==="validate"){
     //If someone is logged in
     if(isset($_SESSION["current_user"])){
         $return['status'] = 'logged in';
@@ -77,7 +81,7 @@ elseif($_POST["requestType"]==="validate"){
 /**********************************************
  *              LOGOUT REQUEST	
  *********************************************/
-elseif($_POST["requestType"]==="logout"){
+elseif($request_type==="logout"){
     session_destroy();
 }
 ?>
