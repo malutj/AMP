@@ -14,7 +14,8 @@ $(document).ready(function(){
     "json");
 
   //handles the logout button
-  $("#logout_button").click(function(){
+  $("#logout_button").click(function(e){
+    e.preventDefault();
     $.post("./php/validate.php", 
           {request_type : 'logout'}, 
           function(result){
@@ -23,7 +24,8 @@ $(document).ready(function(){
   });
 
   //handles the add button
-    $("#add_button").click(function(){
+    $("#add_button").click(function(e){
+      e.preventDefault();
         $.post("./php/clients.php",
           {request_type : 'add',
            client_name : $("#client_name").val()
