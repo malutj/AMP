@@ -1,7 +1,7 @@
 <?php
 //Turn on error reporting
 ini_set('display_errors', 'On');
-echo("!\n");
+
 //include the database connection info
 include('db_connect.php');
 include('global.php');
@@ -12,6 +12,7 @@ if(empty($_POST['app_code']) || $_POST['app_code'] != $app_code){
     exit;
 }
 echo "app code verified\n";
+exit;
 //create PDO object
 try{
     $pdo = new PDO($dbinfo, $dbuser, $dbpass);
@@ -25,7 +26,7 @@ catch (PDOException $e){
 $common_file_list = get_file_list($common_dir);
 echo var_dump($common_file_list);
 echo "\n";
-
+exit;
 //fetch list of paths for all client-specific files
 $client_dir = get_client_directory();
 $unique_file_list = get_file_list();
