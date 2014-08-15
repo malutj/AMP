@@ -55,7 +55,7 @@ function get_file_list($dir){
         //entry is a directory
         if(is_dir($path)){
             //grab all files in directory
-            $temp = array_diff(scandir($path), array('..', '.'));
+            $temp = array_values(array_diff(scandir($path), array('..', '.')));
             //append directory name to each entry
             foreach($temp as &$t){$t = $entry.'/'.$t;}
             //remove the entry from the file array
@@ -66,6 +66,8 @@ function get_file_list($dir){
             array_values($f);
             //add temp array to file array
             array_merge($f, $temp);
+            echo var_dump($f);
+            exit;
         }
     }
     echo var_dump($f);
