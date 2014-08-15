@@ -22,18 +22,14 @@ catch (PDOException $e){
 }
 
 //fetch list of paths for all common files
-$common_file_list = get_file_list($common_dir);
-echo var_dump($common_file_list);
-echo "\n";
-exit;
+$common_file_list = get_file_list($main_dir.$common_dir);
+
 //fetch list of paths for all client-specific files
 $client_dir = get_client_directory();
-$unique_file_list = get_file_list();
+$unique_file_list = get_file_list($main_dir.$client_dir);
 
 //overwrite common files with client-specific files where required
 $merged_list = merge_file_lists($common_file_list, $unique_file_list);
-
-echo var_dump($merged_list);
 
 //get file mod dates
 $result = get_file_dates($merged_list);
@@ -46,12 +42,11 @@ exit;
 function get_file_list($dir){
     //get list of all files/directories inside main directory
     $f = array_values(array_diff(scandir($dir), array('..', '.')));
- 
+
     //iterate through file array and dig out each directory
     for($i = 0; $i < count($f); $i++){
         $entry = $f[$i];
         $path = $dir.'/'.$entry;
-
         //entry is a directory
         if(is_dir($path)){
             //grab all files in directory
@@ -62,27 +57,26 @@ function get_file_list($dir){
             unset($f[$i]);
             //decrement i
             $i--;
-            //re-order the array
-            array_values($f);
+            //re-order the array            
+            $f = array_values($f);
             //add temp array to file array
-            array_merge($f, $temp);
-            echo var_dump($f);
-            exit;
+            $f = array_merge($f, $temp);           
         }
     }
-    echo var_dump($f);
-    exit;
     return $f;
 }
 
 function get_client_directory(){
+    global $pdo;
+    global $main_dir;
+    $code = strip_tags($_POST['code']);
     try{
         $query = 'SELECT name FROM clients WHERE clients.code = :client_code';
         $stmt = $pdo->prepare($query);
-        $stmt->bindParam(':client_code', strip_tags($_POST['code']));
+        $stmt->bindParam(':client_code', $code);
         if($stmt->execute()){
-            $row = $stmt.fetch();
-            return $main_dir.'/'.str_replace(" ", "_", $row['name']).'_'.$code;
+            $row = $stmt->fetch();
+            return '/'.str_replace(" ", "_", $row['name']).'_'.$code;
         }
     }
     catch(PDOException $e){
@@ -92,6 +86,8 @@ function get_client_directory(){
 }
 
 function merge_file_lists($c, $u){
+    global $client_dir;
+    global $common_dir;
     //create all three file lists
     $common_files = array_diff($c, $u);             //files that are only in common folder
     $unique_files = array_diff($u, $c);             //files that are only in client folder
@@ -109,9 +105,10 @@ function merge_file_lists($c, $u){
 }
 
 function get_file_dates($f){
+    global $main_dir;
     $result = array();
     foreach($f as $e){
-        array_push($result, array($e, filemtime($e)));
+        array_push($result, array($e, filemtime($main_dir.$e)));
     }
     return $result;
 }
