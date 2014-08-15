@@ -11,8 +11,7 @@ if(empty($_POST['app_code']) || $_POST['app_code'] != $app_code){
     echo("Sorry, we don't recognize the origination of this request.");
     exit;
 }
-echo "app code verified\n";
-exit;
+
 //create PDO object
 try{
     $pdo = new PDO($dbinfo, $dbuser, $dbpass);
@@ -46,12 +45,13 @@ exit;
 
 function get_file_list($dir){
     //get list of all files/directories inside main directory
-    $f = array_diff(scandir($dir), array('..', '.'));
-
+    $f = array_values(array_diff(scandir($dir), array('..', '.')));
+ 
     //iterate through file array and dig out each directory
     for($i = 0; $i < count($f); $i++){
         $entry = $f[$i];
-        $path = $dir.$entry;
+        $path = $dir.'/'.$entry;
+
         //entry is a directory
         if(is_dir($path)){
             //grab all files in directory
@@ -68,6 +68,8 @@ function get_file_list($dir){
             array_merge($f, $temp);
         }
     }
+    echo var_dump($f);
+    exit;
     return $f;
 }
 
