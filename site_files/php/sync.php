@@ -1,9 +1,9 @@
 <?php
 //Turn on error reporting
 ini_set('display_errors', 'On');
-
+echo("!\n");
 //include the database connection info
-include('database_connect.php');
+include('db_connect.php');
 include('global.php');
 
 //verify that request came from app
@@ -11,7 +11,7 @@ if(empty($_POST['app_code']) || $_POST['app_code'] != $app_code){
     echo("Sorry, we don't recognize the origination of this request.");
     exit;
 }
-
+echo "app code verified\n";
 //create PDO object
 try{
     $pdo = new PDO($dbinfo, $dbuser, $dbpass);
@@ -23,6 +23,8 @@ catch (PDOException $e){
 
 //fetch list of paths for all common files
 $common_file_list = get_file_list($common_dir);
+echo var_dump($common_file_list);
+echo "\n";
 
 //fetch list of paths for all client-specific files
 $client_dir = get_client_directory();
@@ -30,6 +32,8 @@ $unique_file_list = get_file_list();
 
 //overwrite common files with client-specific files where required
 $merged_list = merge_file_lists($common_file_list, $unique_file_list);
+
+echo var_dump($merged_list);
 
 //get file mod dates
 $result = get_file_dates($merged_list);
@@ -70,7 +74,7 @@ function get_client_directory(){
     try{
         $query = 'SELECT name FROM clients WHERE clients.code = :client_code';
         $stmt = $pdo->prepare($query);
-        $stmt->bindParam(':client_code', strip_tags($_POST['client_code']));
+        $stmt->bindParam(':client_code', strip_tags($_POST['code']));
         if($stmt->execute()){
             $row = $stmt.fetch();
             return $main_dir.'/'.str_replace(" ", "_", $row['name']).'_'.$code;

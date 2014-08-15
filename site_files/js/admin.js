@@ -45,6 +45,24 @@ $(document).ready(function(){
 
         }, "json");
   });
+    
+//sync button for testing
+    $("#sync_button").click(function(e){
+       e.preventDefault();
+       $.post("./php/sync.php",
+              {app_code: "j5K4F98j3vnME57G10f",
+               code: "7e45ff"
+              },
+             function(result){
+                 if(result.status === 'success'){
+                    
+                 }
+                 else{
+                     alert("fail");
+                 }
+             },'json'
+       );
+    });
 });
 function load_client_list(){
    $.get("./php/clients.php",
