@@ -52,9 +52,10 @@ function load_client_list(){
     }, 'json');
 }
 function populate_client_list(){
-  s = "";
+  var s = "";
+
   $.each(client_list, function(index, val){
-    s = s+"<div class='client'>";
+    s = s+"<div class='client"+(index%2)+"'>";
     s = s+val.name+"<br>"+val.code;
     s = s+"</div>";
   });

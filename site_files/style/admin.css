@@ -58,5 +58,14 @@ a.tt-button.green:hover {
   padding:5px;
 }
 .boxcontent{
+  
+}
+
+.client0{
   padding:5px;
+  background-color:#762382;
+}
+.client1{
+  padding:5px;
+  background-color:#561A5F;
 }
