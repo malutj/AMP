@@ -1,4 +1,6 @@
 $(document).ready(function(){
+//global client list array
+    client_list = [];
 //----------ACTIONS----------//
   //Checks whether the user is logged in or not on load
   $.post("./php/validate.php",
@@ -25,17 +27,20 @@ $(document).ready(function(){
 
   //handles the add button
     $("#add_button").click(function(e){
+        var client_name = $("#client_name").val();
       e.preventDefault();
         $.post("./php/clients.php",
           {request_type : 'add',
-           client_name : $("#client_name").val()
+           client_name : client_name
           },
           function(result){
             if(result.status==="success"){
-              //add client to global array and reprint todo list
+              $("#client_name").val("");
+              client_list.push({"cid":result.cid, "name": client_name, "code":result.code});
+              populate_client_list();
             }
             else{
-              //handle failure message
+              $("#add_status").html(result.msg);
             }
 
         }, "json");
@@ -53,9 +58,8 @@ function load_client_list(){
 }
 function populate_client_list(){
   var s = "";
-
   $.each(client_list, function(index, val){
-    s = s+"<div class='client"+(index%2)+"'>";
+    s = s+"<div class='client"+(index%2)+"' id='"+val.cid+"'>";
     s = s+val.name+"<br>"+val.code;
     s = s+"</div>";
   });

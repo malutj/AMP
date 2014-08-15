@@ -1,6 +1,7 @@
 <?php
 session_start();            //start the session	
 include('db_connect.php');  //this holds all the database connection info
+include('global.php');       
 
 //Turn error reporting on
 ini_set('display_errors', 'On');
@@ -73,20 +74,20 @@ function add_client($pdo){
     	 
     	if($result){
     	    //create the new directory
-    	    generate_client_directory($client_name, $client_code);
+    	    create_client_directory($client_name, $client_code);
     		$response['status'] = 'success';
+            $response['cid'] = $pdo->lastInsertId();
     		$response['code'] = $client_code;
-    	}
-    	else{
-    		if($stmt->errorCode() == "23000"){
-    		    $response['status'] = 'fail';
-                $return['msg'] = "That client name already exists";
-            }
     	}
     }
     catch(PDOException $e){
         $response['status'] = 'fail';
-        $response['msg'] = $e->getMessage();
+        if($stmt->errorCode() == "23000"){
+            $return['msg'] = "That client name already exists";
+        }
+        else{
+            $response['msg'] = $e->getMessage();
+        }
     }
     echo json_encode($response);
     die();
@@ -114,9 +115,10 @@ function generate_client_code($name){
 * Return: void
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 function create_client_directory($name, $code){
+    global $main_dir;
     //dirname(dirname(__FILE__));
     $name_temp = str_replace(" ", "_", $name); //Replace all spaces in name with underscore
-    $dir_path = "../client_files/".$name_temp."_".$code;
+    $dir_path = $main_dir.'/'.$name_temp."_".$code;
     if(!file_exists($dir_path)){
         mkdir($dir_path);
     }
