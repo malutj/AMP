@@ -45,7 +45,19 @@ $(document).ready(function(){
               .css("color","gray");
 	    }
 	});
-	
+
+//allow user to use enter key to submit
+$("#username").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#login_button").click();
+    }
+});
+    
+$("#password").keyup(function(event){
+    if(event.keyCode == 13){
+        $("#login_button").click();
+    }
+});
 
 	
 //Handles login button press
