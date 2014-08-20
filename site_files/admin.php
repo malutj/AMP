@@ -1,5 +1,10 @@
 <?php
-	session_start();
+session_start();
+
+if(empty($_SESSION["current_user"])){
+  header("Location: login.php");
+  exit();
+}
 ?>
 
 <!DOCTYPE html>
