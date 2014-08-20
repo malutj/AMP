@@ -1,11 +1,18 @@
+<?php
+session_start();
+
+if(isset($_SESSION["current_user"])){
+  header("Location: admin.php");
+  exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <script type="text/javascript" src="js/login.js"></script>
-<script>
-  check_login_status();
-</script>
 <link rel='stylesheet' href='style/login.css'>
 </head>
 <body>

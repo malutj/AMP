@@ -6,6 +6,8 @@
 
 $(document).ready(function(){
 
+	//check_login_status();
+
 //----------ANIMATIONS----------//
 
     //Username text field
