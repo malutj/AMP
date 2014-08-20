@@ -7,7 +7,7 @@ $(document).ready(function(){
     {request_type : 'validate'},
     function(result){
       if(result.status==="not logged in"){
-        window.location = "login.html";
+        window.location = "login.php";
       }
       else{
         load_client_list();
@@ -21,7 +21,7 @@ $(document).ready(function(){
     $.post("./php/validate.php", 
           {request_type : 'logout'}, 
           function(result){
-            window.location = "login.html";
+            window.location = "login.php";
     });
   });
 

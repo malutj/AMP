@@ -59,7 +59,7 @@ $(document).ready(function(){
                 },
         		function(result){
         			if(result.status==="success"){
-        				window.location = "admin.html";
+        				window.location = "admin.php";
         			}
         			else{
         			    $("#login_status").html(result.msg);
