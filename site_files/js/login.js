@@ -71,7 +71,7 @@ $("#password").keyup(function(event){
                 },
         		function(result){
         			if(result.status==="success"){
-        				window.location = "admin.php";
+        				window.location = "admin.html";
         			}
         			else{
         			    $("#login_status").html(result.msg);

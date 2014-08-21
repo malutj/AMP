@@ -21,7 +21,7 @@ $(document).ready(function(){
     $.post("./php/validate.php", 
           {request_type : 'logout'}, 
           function(result){
-            window.location = "login.php";
+            window.location = "login.html";
     });
   });
 
