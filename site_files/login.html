@@ -1,0 +1,42 @@
+<?php
+session_start();
+
+if(isset($_SESSION["current_user"])){
+  header("Location: admin.html");
+  exit();
+}
+
+?>
+
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
+<link rel='stylesheet' href='style/login.css'>
+</head>
+<body>
+  <header>
+    <a href="http://www.ampupmypractice.com">
+      <img alt="Animated Medical Procedures" src="http://www.ampupmypractice.com/wp-content/uploads/2012/09/amp-logo1.png"></img>
+    </a>
+  </header>
+  <div class="content">
+    Admin Login<br>
+    <table>
+      <tr>
+        <td><input type="text" id="username" value=" USERNAME"></td>
+        <td id="username_status"></td>
+      </tr>
+      <tr>
+        <td><input type="text" id="password" value=" PASSWORD"></td>
+        <td id="password_status"></td>
+      </tr>
+      <tr>
+        <td><a href="" class="green tt-button" id="login_button">Login</a></td>
+        <td id="login_status"></td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
