@@ -9,10 +9,10 @@ if(empty($_POST['app_code']) || $_POST['app_code'] != $app_code){
 }
 
 //get POST variables
-$f = $_POST['file'];
+$f = (empty($_POST['file'])) ? NULL : $_POST['file'];
 
 //send the file
-if (file_exists($f)){
+if ($f != null && file_exists($f)){
     //create the header
     header('Content-Description: File Transfer');
     header('Content-Type: application/octet-stream');

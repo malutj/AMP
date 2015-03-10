@@ -47,7 +47,8 @@ function get_file_list($dir){
     for($i = 0; $i < count($f); $i++){
         $entry = $f[$i];
         $path = $dir.'/'.$entry;
-        //entry is a directory
+
+        //if entry is a directory
         if(is_dir($path)){
             //grab all files in directory
             $temp = array_values(array_diff(scandir($path), array('..', '.')));
@@ -88,6 +89,7 @@ function get_client_directory(){
 function merge_file_lists($c, $u){
     global $client_dir;
     global $common_dir;
+
     //create all three file lists
     $common_files = array_diff($c, $u);             //files that are only in common folder
     $unique_files = array_diff($u, $c);             //files that are only in client folder
