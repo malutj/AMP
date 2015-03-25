@@ -1,7 +1,7 @@
 <?php
     $dbhost = 'localhost'; //url for host
-    $dbname = 'miller'; //name of the database
-    $dbuser = 'malutj'; //username for the database login
-    $dbpass = 'j@ys0n!'; //password for the database login
+    $dbname = 'amp'; //name of the database
+    $dbuser = 'dev1'; //username for the database login
+    $dbpass = 'dev1'; //password for the database login
     $dbinfo =  "mysql:host=".$dbhost.";dbname=".$dbname;
 ?>

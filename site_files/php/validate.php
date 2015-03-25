@@ -33,7 +33,7 @@ if($request_type==="login"){
     $password = $_POST["password"];
 
     //Get all records with that username
-    $query = "SELECT * FROM users WHERE username = '$username'";
+    $query = "SELECT * FROM users WHERE username = '$username' and password = PASSWORD('$password')";
     $stmt = $pdo->prepare($query);
   
     //make sure query is successful
@@ -43,13 +43,11 @@ if($request_type==="login"){
       
       //if the query returned 0 results then the user isn't in the database
       if(count($result) > 0){
-        if($result[0]['password'] === $password){
-          //set session variable
-          $_SESSION["current_user"] = $username;
-          $return['status'] = 'success';
-          echo json_encode($return);
-          die();
-        }
+        //set session variable
+        $_SESSION["current_user"] = $username;
+        $return['status'] = 'success';
+        echo json_encode($return);
+        die();
       }
       $return['status'] = 'error';
       $return['msg'] = 'Username or password is incorrect';

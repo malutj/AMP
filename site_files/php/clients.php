@@ -26,20 +26,24 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $request_type = (empty($_GET['request_type'])) ? $_POST["request_type"] : $_GET['request_type'];
 
 //determine the request type and call the appropriate function to handle the request
-if($request_type==="load"){load_clients($pdo);}
-elseif($request_type==="add"){add_client($pdo);}
-elseif($request_type==="delete"){delete_client($pdo);}
+if($request_type==="load"){load_clients();}
+elseif($request_type==="add"){add_client();}
+elseif($request_type==="delete"){delete_client();}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * Desc: Fetches all the client data
 * Param: void
 * Return: void
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-function load_clients($pdo){
+function load_clients(){
     $client_list = array();
+    global $pdo;
     try{
+        //Create the query
+        $query = "SELECT * FROM clients";
+        $stmt = $pdo->prepare($query);
         //Execute the query
-        $result = $stmt = $pdo->query("SELECT * FROM clients");
+        $result = $stmt->execute();
         if($result){
             while($row=$stmt->fetch(PDO::FETCH_ASSOC)){
                 array_push($client_list, $row);
@@ -61,20 +65,21 @@ function load_clients($pdo){
 * Param: void
 * Return: void
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-function add_client($pdo){
+function add_client(){
+    global $pdo;
     //Create client variables
     $client_name = strip_tags($_POST["client_name"]);   //strip tags from client name
     $client_code = generate_client_code($client_name);  //generate the client code
     try{
         //Create the query
-        $query = "INSERT INTO clients (name, code) VALUES (:client_name, :client_code)";
+        $query = "INSERT INTO clients (client_name, client_code) VALUES (:client_name, :client_code)";
         $stmt = $pdo->prepare($query);
         //Execute query
         $result = $stmt->execute(array(':client_name'=>$client_name, ':client_code'=>$client_code));
     	 
     	if($result){
     	    //create the new directory
-    	    create_client_directory($client_name, $client_code);
+    	    create_client_directory($client_name);
     		$response['status'] = 'success';
             $response['cid'] = $pdo->lastInsertId();
     		$response['code'] = $client_code;
@@ -83,7 +88,7 @@ function add_client($pdo){
     catch(PDOException $e){
         $response['status'] = 'fail';
         if($stmt->errorCode() == "23000"){
-            $return['msg'] = "That client name already exists";
+            $response['msg'] = "That client name already exists";
         }
         else{
             $response['msg'] = $e->getMessage();
@@ -104,8 +109,7 @@ function generate_client_code($name){
     do{
         $prefix++;
         $code = substr(md5($prefix.$name) , 0, 6);
-        //see if the code already exists in the database
-    }while(1==0);
+    }while(client_code_exists($code));
     return $code;
 }
 
@@ -114,13 +118,13 @@ function generate_client_code($name){
 * Param: client name, client code
 * Return: void
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-function create_client_directory($name, $code){
+function create_client_directory($name){
     global $main_dir;
     //dirname(dirname(__FILE__));
     $name_temp = str_replace(" ", "_", $name); //Replace all spaces in name with underscore
-    $dir_path = $main_dir.'/'.$name_temp."_".$code;
+    $dir_path = $main_dir.'/'.$name_temp;
     if(!file_exists($dir_path)){
-        mkdir($dir_path);
+        mkdir($dir_path, 0777, true);
     }
 }
 
@@ -129,12 +133,17 @@ function create_client_directory($name, $code){
 * Param: void
 * Return: void
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-function delete_client($pdo){
+function delete_client(){
+    global $pdo;
     $client_id = $_POST["client_id"];
+
     try{
-    	$query = "DELETE FROM client_table WHERE client_id = :client_id";
+        //Create the query
+    	$query = "DELETE FROM clients WHERE client_id = :client_id";
     	$stmt = $pdo->prepare($query);
     	$stmt->bindParam(':client_id', $client_id);
+
+        //Execute the query
     	$result = $stmt->execute();
     	if($result){
     		$reponse['status'] = 'success';
@@ -151,5 +160,25 @@ function delete_client($pdo){
     
     echo json_encode($response);
     die();
+}
+
+function client_code_exists($code){
+    global $pdo;
+    try{
+        //Create the query
+        $query = "SELECT client_id FROM clients WHERE client_code = :code";
+        $stmt = $pdo->prepare($query);
+
+        //Execute the query
+        $result = $stmt->execute();
+        if($result){
+            if(count($stmt->fetch(PDO::FETCH_NUM)) > 0) return true;
+            return false;
+        }
+    }
+    catch(PDOException $e){
+        // not really sure what error handling we should do here
+        return false;
+    }
 }
 ?>

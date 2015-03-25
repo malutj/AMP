@@ -7,7 +7,7 @@ $(document).ready(function(){
     {request_type : 'validate'},
     function(result){
       if(result.status==="not logged in"){
-        window.location = "login.php";
+        window.location = "login.html";
       }
       else{
         load_client_list();
@@ -26,24 +26,25 @@ $(document).ready(function(){
   });
 
   //handles the add button
-    $("#add_button").click(function(e){
-        var client_name = $("#client_name").val();
-      e.preventDefault();
-        $.post("./php/clients.php",
-          {request_type : 'add',
-           client_name : client_name
-          },
-          function(result){
-            if(result.status==="success"){
-              $("#client_name").val("");
-              client_list.push({"cid":result.cid, "name": client_name, "code":result.code});
-              populate_client_list();
-            }
-            else{
-              $("#add_status").html(result.msg);
-            }
+  $("#add_button").click(function(e){
+    var client_name = $("#client_name").val();
+    e.preventDefault();
+    $.post("./php/clients.php",
+      {request_type : 'add',
+       client_name : client_name
+      },
+      function(result){
+        if(result.status==="success")
+        {
+          $("#client_name").val("");
+          client_list.push({"cid":result.cid, "client_name": client_name, "client_code":result.code});
+          populate_client_list();
+        }
+        else
+          $("#add_status").html(result.msg);
+        }
 
-        }, "json");
+    }, "json");
   });
     
 //sync button for testing
@@ -64,6 +65,8 @@ $(document).ready(function(){
        );
     });
 });
+
+
 function load_client_list(){
    $.get("./php/clients.php",
     {request_type : 'load'},
@@ -74,11 +77,13 @@ function load_client_list(){
       }
     }, 'json');
 }
+
+
 function populate_client_list(){
   var s = "";
   $.each(client_list, function(index, val){
     s = s+"<div class='client"+(index%2)+"' id='"+val.cid+"'>";
-    s = s+val.name+"<br>"+val.code;
+    s = s+val.client_name+"<br>"+val.client_code;
     s = s+"</div>";
   });
   $("#client_list").html(s);
