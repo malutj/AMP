@@ -47,7 +47,7 @@ if($request_type==="login"){
         $_SESSION["current_user"] = $username;
         $return['status'] = 'success';
         echo json_encode($return);
-        die();
+        exit();
       }
       $return['status'] = 'error';
       $return['msg'] = 'Username or password is incorrect';
@@ -58,7 +58,7 @@ if($request_type==="login"){
       $return['msg'] = $e->getMessage();
     }
     echo json_encode($return);
-    die();
+    exit();
 }
 /**********************************************
  *          VALIDATION REQUEST	
@@ -73,7 +73,7 @@ elseif($request_type==="validate"){
         $return['status'] = 'not logged in';
     }
     echo json_encode($return);
-    die();
+    exit();
 }
 
 /**********************************************

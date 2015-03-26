@@ -41,6 +41,7 @@ $(document).ready(function(){
           populate_client_list();
         }
         else
+        {
           $("#add_status").html(result.msg);
         }
 
