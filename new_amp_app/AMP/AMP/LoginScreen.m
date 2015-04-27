@@ -7,6 +7,7 @@
 //
 
 #import "LoginScreen.h"
+#import "CommManager.h"
 
 @interface LoginScreen ()
 
