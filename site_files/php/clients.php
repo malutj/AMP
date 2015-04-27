@@ -26,9 +26,47 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $request_type = (empty($_GET['request_type'])) ? $_POST["request_type"] : $_GET['request_type'];
 
 //determine the request type and call the appropriate function to handle the request
-if($request_type==="load"){load_clients();}
+if($request_type==="validate"){validate_client();}
+elseif($request_type==="load"){load_clients();}
 elseif($request_type==="add"){add_client();}
 elseif($request_type==="delete"){delete_client();}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+* Desc: Fetches all the client data
+* Param: void
+* Return: void
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+function validate_client(){
+    $clientCode = $_POST["clientCode"];
+    global $pdo;
+    
+    //Get all records with that username
+    $query = "SELECT * FROM clients WHERE client_code = '$clientCode'";
+    $stmt = $pdo->prepare($query);
+  
+    //make sure query is successful
+    try{
+      $stmt->execute();
+      $result = $stmt->fetchAll();
+      
+      //if the query returned 0 results then the user isn't in the database
+      if(count($result) > 0){
+        //set session variable
+        $return['status'] = 'success';
+        echo json_encode($return);
+        exit();
+      }
+      $return['status'] = 'error';
+      $return['msg'] = 'Client Code is unrecognized';
+    }
+    //query failed
+    catch (PDOException $e){
+      $return['status'] = 'error';
+      $return['msg'] = $e->getMessage();
+    }
+    echo json_encode($return);
+    exit();
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * Desc: Fetches all the client data
