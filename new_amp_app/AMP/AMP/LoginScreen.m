@@ -11,8 +11,9 @@
 @interface LoginScreen ()
 
 @property NSUserDefaults *defaults;
-@property NSString* clientCode;
+@property NSString *clientCode;
 @property (weak, nonatomic) IBOutlet UITextField *clientCodeField;
+@property (strong, nonatomic) ServerCommManager *commManager;
 
 @end
 
@@ -20,6 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _commManager = [[ServerCommManager alloc]init];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -36,14 +38,27 @@
     
     return _clientCode != nil ? true : false;
 }
-- (IBAction)connectButtonPressed:(UIButton *)sender {
-}
 
-- (BOOL)clientValidationSuccessful:(NSString *)cc {
-    //send http request
-    //check http response
+- (IBAction)connectButtonPressed:(UIButton *)sender {
+    _clientCode = self.clientCodeField.text;
+    if([_clientCode length]==0){
+        NSLog(@"Attempt to log in with no username and/or password");
+        return;
+    }
+    NSString *returnMessage;
     
-    return true;
+    BOOL loginSuccessful = [_commManager LoginWithClientCode:_clientCode
+                                         AndReturnMessage:&returnMessage];
+    
+    if (loginSuccessful)
+    {
+        //set client code in user defaults
+        //close this view and open settings page
+    }
+    else
+    {
+        _response.text = returnMessage;
+    }
 }
 
 @end
