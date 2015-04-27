@@ -10,7 +10,7 @@
 
 @implementation ServerCommManager
 
-NSString *server = @"http://necron99-198373.usw1.nitrousbox.com/";
+NSString *server = @"http://ampupmypractice.com/";
 NSURL *base_url;
 
 -(id)init
@@ -20,23 +20,22 @@ NSURL *base_url;
     return self;
 }
 
--(BOOL)LoginWithUsername:(NSString*)username
-             AndPassword:(NSString*)password
+-(BOOL)LoginWithUsername:(NSString*)clientCode
         AndReturnMessage:(NSString**)returnMessage
 {
     NSLog(@"Creating URL request");
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] init];
-    [req setURL:[NSURL URLWithString: @"php/validate.php" relativeToURL:base_url]];
+    [req setURL:[NSURL URLWithString: @"php/clients.php" relativeToURL:base_url]];
     [req setHTTPMethod:@"POST"];
     NSLog(@"URL created [%@]", req.URL.absoluteString);
     
     NSLog(@"Creating request body");
-    NSString *body = [NSString stringWithFormat:@"request_type=login&username=%@&password=%@", username, password];
+    NSString *body = [NSString stringWithFormat:@"request_type=validate&clientCode=%@", clientCode];
     [req setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[body length]] forHTTPHeaderField:@"Content-Length"];
     [req setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
     
     NSHTTPURLResponse *responseCode = nil;
-    NSLog(@"Sending login request [%@, %@]", username, password);
+    NSLog(@"Sending login request [%@]", clientCode);
     NSData *responseData = [NSURLConnection sendSynchronousRequest:req
                                                  returningResponse:&responseCode
                                                              error:nil];
