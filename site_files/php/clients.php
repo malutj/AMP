@@ -32,7 +32,7 @@ elseif($request_type==="add"){add_client();}
 elseif($request_type==="delete"){delete_client();}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-* Desc: Fetches all the client data
+* Desc: Validates a client code
 * Param: void
 * Return: void
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
