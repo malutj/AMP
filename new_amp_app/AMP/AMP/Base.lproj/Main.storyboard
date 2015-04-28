@@ -4,10 +4,71 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
+        <!--Settings Page-->
+        <scene sceneID="R3I-fC-hxN">
+            <objects>
+                <viewController storyboardIdentifier="SettingsPage" id="eqe-mx-tqS" customClass="SettingsPage" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Y7r-1F-ZDy"/>
+                        <viewControllerLayoutGuide type="bottom" id="JQg-vy-Dl2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8FR-WP-ENm">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sRM-UZ-vLz">
+                                <rect key="frame" x="248" y="73" width="104" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WaZ-ZB-F8b">
+                                <rect key="frame" x="255" y="185" width="91" height="30"/>
+                                <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Sync">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="SyncCancelPressed:" destination="eqe-mx-tqS" eventType="touchUpInside" id="qyB-WN-2uB"/>
+                                </connections>
+                            </button>
+                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Xbq-DS-dJr">
+                                <rect key="frame" x="225" y="266" width="150" height="2"/>
+                            </progressView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gaz-8r-krj">
+                                <rect key="frame" x="225" y="237" width="350" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" fixedFrame="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="TyH-ws-PNc">
+                                <rect key="frame" x="225" y="356" width="150" height="2"/>
+                            </progressView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IRq-FZ-PIU">
+                                <rect key="frame" x="225" y="323" width="350" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.33725490200000002" green="0.1019607843" blue="0.37254901959999998" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <connections>
+                        <outlet property="SyncCancelButton" destination="WaZ-ZB-F8b" id="17D-eG-Q8a"/>
+                        <outlet property="fileLabel" destination="IRq-FZ-PIU" id="MdY-ib-9MA"/>
+                        <outlet property="fileProgress" destination="TyH-ws-PNc" id="crZ-DH-PAv"/>
+                        <outlet property="overallLabel" destination="Gaz-8r-krj" id="Y3M-iO-6fQ"/>
+                        <outlet property="overallProgress" destination="Xbq-DS-dJr" id="30g-sN-nzK"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WfM-Qd-PYO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="253" y="-393"/>
+        </scene>
         <!--Login Screen-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginScreen" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginScreen" id="BYZ-38-t0r" customClass="LoginScreen" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -35,15 +96,20 @@
                                 </state>
                                 <connections>
                                     <action selector="connectButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7Tl-Nw-A0y"/>
-                                    <action selector="validate_button_pressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zJf-HE-BLr"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JXU-Lo-d9A">
+                                <rect key="frame" x="131" y="351" width="248" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.50196081399917603" green="0.0" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.33725490196078434" green="0.10196078431372549" blue="0.37254901960784315" alpha="1" colorSpace="calibratedRGB"/>
                     </view>
                     <connections>
                         <outlet property="clientCodeField" destination="M2u-J2-ZuY" id="gOq-1T-PU9"/>
-                        <outlet property="client_code_text_field" destination="M2u-J2-ZuY" id="SvE-oA-Pp3"/>
+                        <outlet property="response" destination="JXU-Lo-d9A" id="RBF-8t-aq0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

@@ -14,6 +14,9 @@
 		0964486F1AE71DC10042722A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0964486E1AE71DC10042722A /* Images.xcassets */; };
 		096448721AE71DC10042722A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 096448701AE71DC10042722A /* LaunchScreen.xib */; };
 		0964487E1AE71DC20042722A /* AMPTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0964487D1AE71DC20042722A /* AMPTests.m */; };
+		097B55561AEF1E6300817DEF /* ServerCommManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 097B55551AEF1E6300817DEF /* ServerCommManager.m */; };
+		09991B0E1AEF2C1100585204 /* SettingsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 09991B0D1AEF2C1100585204 /* SettingsPage.m */; };
+		09991B131AEF31EE00585204 /* html_files in Resources */ = {isa = PBXBuildFile; fileRef = 09991B121AEF31EE00585204 /* html_files */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +43,11 @@
 		096448771AE71DC10042722A /* AMPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AMPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0964487C1AE71DC20042722A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0964487D1AE71DC20042722A /* AMPTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMPTests.m; sourceTree = "<group>"; };
+		097B55541AEF1E6300817DEF /* ServerCommManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerCommManager.h; sourceTree = "<group>"; };
+		097B55551AEF1E6300817DEF /* ServerCommManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerCommManager.m; sourceTree = "<group>"; };
+		09991B0D1AEF2C1100585204 /* SettingsPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsPage.m; sourceTree = "<group>"; };
+		09991B0F1AEF2C2700585204 /* SettingsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsPage.h; sourceTree = "<group>"; };
+		09991B121AEF31EE00585204 /* html_files */ = {isa = PBXFileReference; lastKnownFileType = folder; name = html_files; path = AMP/html_files; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +71,7 @@
 		096448551AE71DC10042722A = {
 			isa = PBXGroup;
 			children = (
+				09991B121AEF31EE00585204 /* html_files */,
 				096448601AE71DC10042722A /* AMP */,
 				0964487A1AE71DC10042722A /* AMPTests */,
 				0964485F1AE71DC10042722A /* Products */,
@@ -81,6 +90,8 @@
 		096448601AE71DC10042722A /* AMP */ = {
 			isa = PBXGroup;
 			children = (
+				097B55541AEF1E6300817DEF /* ServerCommManager.h */,
+				097B55551AEF1E6300817DEF /* ServerCommManager.m */,
 				096448651AE71DC10042722A /* AppDelegate.h */,
 				096448661AE71DC10042722A /* AppDelegate.m */,
 				096448681AE71DC10042722A /* LoginScreen.h */,
@@ -89,6 +100,8 @@
 				0964486E1AE71DC10042722A /* Images.xcassets */,
 				096448701AE71DC10042722A /* LaunchScreen.xib */,
 				096448611AE71DC10042722A /* Supporting Files */,
+				09991B0D1AEF2C1100585204 /* SettingsPage.m */,
+				09991B0F1AEF2C2700585204 /* SettingsPage.h */,
 			);
 			path = AMP;
 			sourceTree = "<group>";
@@ -200,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0964486D1AE71DC10042722A /* Main.storyboard in Resources */,
+				09991B131AEF31EE00585204 /* html_files in Resources */,
 				096448721AE71DC10042722A /* LaunchScreen.xib in Resources */,
 				0964486F1AE71DC10042722A /* Images.xcassets in Resources */,
 			);
@@ -219,9 +233,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				097B55561AEF1E6300817DEF /* ServerCommManager.m in Sources */,
 				0964486A1AE71DC10042722A /* LoginScreen.m in Sources */,
 				096448671AE71DC10042722A /* AppDelegate.m in Sources */,
 				096448641AE71DC10042722A /* main.m in Sources */,
+				09991B0E1AEF2C1100585204 /* SettingsPage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

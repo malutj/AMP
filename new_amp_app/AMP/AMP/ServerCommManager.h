@@ -11,7 +11,10 @@
 
 @interface ServerCommManager : NSObject
 
--(BOOL)LoginWithUsername:(NSString*)clientCode
+-(BOOL)LoginWithClientCode:(NSString*)clientCode
         AndReturnMessage:(NSString**)returnMessage;
+
+-(NSMutableArray*) GetFileList:(NSString*)clientCode;
+
 
 @end
