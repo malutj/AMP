@@ -65,17 +65,25 @@
         _fileProgress.hidden = false;
         _overallProgress.progress = 0.0;
         _overallProgress.hidden = false;
-
-        for (int i; i < [download_list count]; ++i) {
-            //update label
-            _overallLabel.text = [[NSString alloc] initWithFormat:@"Downloading %d/%d...", i+1, total_file_count];
-            
-            //update progress bar
-            _overallProgress.progress = (i+1)/total_file_count;
-            
-            [self DownloadFile: download_list[i]];
-            
-        }
+        
+        // DOWNLOAD THREAD
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            for (int i; i < [download_list count]; ++i) {
+                //update UI on UI thread
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //update overall label
+                    _overallLabel.text = [[NSString alloc] initWithFormat:@"Downloading %d/%d...", i+1, total_file_count];
+                    
+                    //update progress bar
+                    _overallProgress.progress = (i+1)/total_file_count;
+                    
+                    //update file label
+                    _fileLabel.text = download_list[i];
+                });
+                
+                [self DownloadFile: download_list[i]];
+            }
+        });
         
         
         NSLog(@"@done!");
@@ -88,10 +96,12 @@
 }
 
 -(void)DownloadFile: (NSString *)filename{
-    _fileLabel.text = filename;
+    
+    
 }
 
--(NSMutableArray *)GetDownloadList: (NSMutableArray *)file_list{
+-(NSMutableArray *)GetDownloadList: (NSMutableArray *)file_list
+{
     NSMutableArray *download_list = [[NSMutableArray alloc] init];
     NSFileManager *fm = [[NSFileManager alloc] init];
 

@@ -13,6 +13,10 @@
 NSString *server = @"http://ampupmypractice.com/";
 NSURL *base_url;
 NSString *app_code = @"j5K4F98j3vnME57G10f";
+UIProgressView *pv = nil;
+BOOL downloading = false;
+int totalBytes;
+NSData *fileData;
 
 -(id)init
 {
@@ -104,5 +108,49 @@ NSString *app_code = @"j5K4F98j3vnME57G10f";
     return nil;
 }
 
+-(BOOL)DownloadFile:(NSString *)filename
+             toPath:(NSString *)path
+    withProgressBar:(UIProgressView *)progressBar{
+    
+    NSLog(@"Creating URL request");
+    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] init];
+    [req setURL:[NSURL URLWithString: @"php/download.php" relativeToURL:base_url]];
+    [req setHTTPMethod:@"POST"];
+    NSLog(@"URL created [%@]", req.URL.absoluteString);
+    
+    NSLog(@"Creating request body");
+    NSString *body = [NSString stringWithFormat:@"app_code=%@&file=%@", app_code, filename];
+    [req setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[body length]] forHTTPHeaderField:@"Content-Length"];
+    [req setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    
+    fileData = nil;
+    [fileData writeToFile:path atomically:YES];
+    
+    NSLog(@"Sending file download request [%@]", filename);
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:req delegate:self startImmediately:YES];
+    
+    //now wait on the download to finish before returning. We don't want
+    //to start the next download request before the first one finishes
+    while (downloading) {
+        //wait
+        downloading = false;
+    }
+    return true;
+}
+
+//callback methods for the URL connection
+- (void)connection:(NSURLConnection *)connection
+didReceiveResponse:(NSURLResponse *)response
+{
+ 
+}
+
+- (void)connection:(NSURLConnection *)connection
+    didReceiveData:(NSData *)data
+{
+
+    // Actual progress is self.receivedBytes / self.totalBytes
+}
 
 @end
