@@ -96,7 +96,8 @@
 }
 
 -(void)DownloadFile: (NSString *)filename{
-    
+    NSString *path = [[NSString alloc] initWithFormat:@"%@/html_files/%@", [[NSBundle mainBundle] resourcePath],filename];
+    [_commManager DownloadFile:filename toPath:path withProgressBar:_fileProgress];
     
 }
 

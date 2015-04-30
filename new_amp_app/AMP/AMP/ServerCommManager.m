@@ -124,8 +124,7 @@ NSData *fileData;
     [req setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
     
     
-    fileData = nil;
-    [fileData writeToFile:path atomically:YES];
+    
     
     NSLog(@"Sending file download request [%@]", filename);
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:req delegate:self startImmediately:YES];

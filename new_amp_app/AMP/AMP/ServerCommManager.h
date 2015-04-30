@@ -17,5 +17,8 @@
 
 -(NSMutableArray*) GetFileList:(NSString*)clientCode;
 
+-(BOOL)DownloadFile:(NSString *)filename
+             toPath:(NSString *)path
+    withProgressBar:(UIProgressView *)progressBar;
 
 @end
