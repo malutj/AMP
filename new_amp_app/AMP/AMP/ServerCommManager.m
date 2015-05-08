@@ -15,8 +15,9 @@ NSURL *base_url;
 NSString *app_code = @"j5K4F98j3vnME57G10f";
 UIProgressView *pv = nil;
 BOOL downloading = false;
-int totalBytes;
-NSData *fileData;
+NSUInteger totalBytes;
+NSUInteger receivedBytes;
+NSMutableData *fileData;
 
 -(id)init
 {
@@ -142,13 +143,25 @@ NSData *fileData;
 - (void)connection:(NSURLConnection *)connection
 didReceiveResponse:(NSURLResponse *)response
 {
- 
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
+    NSDictionary *dict = httpResponse.allHeaderFields;
+    NSString *lengthString = [dict valueForKey:@"Content-Length"];
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    NSNumber *length = [formatter numberFromString:lengthString];
+    self.totalBytes = length.unsignedIntegerValue;
+    self.imageData = [[NSMutableData alloc] initWithCapacity:self.totalBytes];
+    
+    //find the file in the directory and save it in a file variable
 }
 
 - (void)connection:(NSURLConnection *)connection
     didReceiveData:(NSData *)data
 {
-
+    //save to file here
+    
+    self.receivedBytes += data.length;
+    //update progress bar
+    
     // Actual progress is self.receivedBytes / self.totalBytes
 }
 

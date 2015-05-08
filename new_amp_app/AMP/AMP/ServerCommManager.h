@@ -10,7 +10,11 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface ServerCommManager : NSObject
+@interface ServerCommManager : NSObject<NSURLConnectionDataDelegate>
+
+@property (nonatomic) NSMutableData *imageData;
+@property (nonatomic) NSUInteger totalBytes;
+@property (nonatomic) NSUInteger receivedBytes;
 
 -(BOOL)LoginWithClientCode:(NSString*)clientCode
         AndReturnMessage:(NSString**)returnMessage;
