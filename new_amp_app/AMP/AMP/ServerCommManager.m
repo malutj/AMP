@@ -18,6 +18,7 @@ BOOL downloading = false;
 NSUInteger totalBytes;
 NSUInteger receivedBytes;
 NSMutableData *fileData;
+NSString *documentDir;
 
 -(id)init
 {
@@ -152,6 +153,9 @@ didReceiveResponse:(NSURLResponse *)response
     self.imageData = [[NSMutableData alloc] initWithCapacity:self.totalBytes];
     
     //find the file in the directory and save it in a file variable
+    documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    
+    
 }
 
 - (void)connection:(NSURLConnection *)connection
