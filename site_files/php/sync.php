@@ -6,9 +6,13 @@ ini_set('display_errors', 'On');
 include('db_connect.php');
 include('global.php');
 
+$response = array();
+
 //verify that request came from app
 if(empty($_POST['app_code']) || $_POST['app_code'] != $app_code){
-    echo("Sorry, we don't recognize the origination of this request.");
+    $response['status'] = 'failed';
+    $response['msg'] = "Sorry, we don't recognize the origination of this request";
+    echo json_encode($response);
     exit;
 }
 
@@ -36,6 +40,7 @@ $result = get_file_dates($merged_list);
 
 $response['status'] = 'success';
 $response['file_list'] = $result;
+$response['msg'] = "it appears to have worked";
 echo json_encode($response);
 exit;
 

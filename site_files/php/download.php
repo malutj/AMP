@@ -1,4 +1,6 @@
 <?php
+include('global.php');
+
 //Turn on error reporting
 ini_set('display_errors', 'On');
 
@@ -10,6 +12,7 @@ if(empty($_POST['app_code']) || $_POST['app_code'] != $app_code){
 
 //get POST variables
 $f = (empty($_POST['file'])) ? NULL : $_POST['file'];
+$f = $main_dir.$f;
 
 //send the file
 if ($f != null && file_exists($f)){
@@ -24,8 +27,12 @@ if ($f != null && file_exists($f)){
     header('Content-Length: ' . filesize($f));
     ob_clean();
     flush();
-    readfile($file);
+    readfile($f);
     exit;
+}
+else{
+    echo("Unable to locate file: ".$f);
+    die();
 }
 
 ?>
