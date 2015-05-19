@@ -9,12 +9,16 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "SettingsPage.h"
 
 @interface ServerCommManager : NSObject<NSURLConnectionDataDelegate>
 
 @property (nonatomic) NSMutableData *imageData;
 @property (nonatomic) NSUInteger totalBytes;
 @property (nonatomic) NSUInteger receivedBytes;
+@property (nonatomic) BOOL downloading;
+
+-(id)initWithPage:(SettingsPage*) page;
 
 -(BOOL)LoginWithClientCode:(NSString*)clientCode
         AndReturnMessage:(NSString**)returnMessage;

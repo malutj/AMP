@@ -20,10 +20,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    NSLog(@"creating window");
     self.window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
     
-    NSLog(@"Creating storyboard");
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     
@@ -35,13 +33,9 @@
         viewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
     }
     
-    NSLog(@"Viewcontroller is set");
     self.window.rootViewController = viewController;
     
-    NSLog(@"calling makeKeyandVisible");
     [self.window makeKeyAndVisible];
-    
-    NSLog(@"returning");
 
     return YES;
 }
@@ -69,14 +63,11 @@
 }
 
 - (BOOL)clientCodeIsSet {
-    NSLog(@"testing defaults");
     if(!_defaults)
         _defaults = [NSUserDefaults standardUserDefaults];
     
-    NSLog(@"Getting client code");
     _clientCode = [_defaults stringForKey:@"clientCode"];
     
-    NSLog(@"returning");
     return _clientCode != nil ? true : false;
 }
 

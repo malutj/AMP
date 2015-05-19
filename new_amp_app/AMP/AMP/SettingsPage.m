@@ -11,7 +11,6 @@
 
 @interface SettingsPage ()
 @property (strong, nonatomic) ServerCommManager *commManager;
-@property (weak, nonatomic) IBOutlet UIProgressView *fileProgress;
 @property (weak, nonatomic) IBOutlet UIProgressView *overallProgress;
 @property (weak, nonatomic) IBOutlet UIButton *SyncCancelButton;
 
@@ -24,9 +23,12 @@
 
 @implementation SettingsPage
 
+UIWebView *webView;
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _commManager = [[ServerCommManager alloc]init];
+    _commManager = [[ServerCommManager alloc]initWithPage:self];
+    webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     self.syncing = false;
     // Do any additional setup after loading the view, typically from a nib.
 }
@@ -72,6 +74,7 @@
                 //update UI on UI thread
                 dispatch_async(dispatch_get_main_queue(), ^{
                     //update overall label
+                    NSLog(@"Setting label text");
                     _overallLabel.text = [[NSString alloc] initWithFormat:@"Downloading %d/%d...", i+1, total_file_count];
                     
                     //update progress bar
@@ -79,15 +82,29 @@
                     
                     //update file label
                     _fileLabel.text = download_list[i];
+                    
+                    //reset file progress bar
+                    _fileProgress.progress = 0;
                 });
                 
-                [self DownloadFile: download_list[i]];
+                _commManager.downloading = true;
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+                    [self DownloadFile: download_list[i]];
+                });
+                
+                while (_commManager.downloading == true) {
+                    //wait
+                    NSLog(@"Waiting...");
+                    [NSThread sleepForTimeInterval:2];
+                }
             }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self DoneWithSync];
+            });
         });
         
         
-        NSLog(@"@done!");
-    
+        
     }
     //CANCEL BUTTON
     else{
@@ -96,9 +113,8 @@
 }
 
 -(void)DownloadFile: (NSString *)filename{
-    NSString *path = [[NSString alloc] initWithFormat:@"%@/html_files/%@", [[NSBundle mainBundle] resourcePath],filename];
+    NSString *path = [[NSString alloc] initWithFormat:@"%@/html_files/%@", [[NSBundle mainBundle] resourcePath],[self GetFileName:filename]];
     [_commManager DownloadFile:filename toPath:path withProgressBar:_fileProgress];
-    
 }
 
 -(NSMutableArray *)GetDownloadList: (NSMutableArray *)file_list
@@ -107,15 +123,16 @@
     NSFileManager *fm = [[NSFileManager alloc] init];
 
     BOOL addToList;
-
     
     for (int i = 0; i < [file_list count]; ++i) {
         addToList = true;
         //get the clean filename (no 'common' or 'client_name' folder at the front of the path)
         NSString *filename = [self GetFileName: file_list[i][0]];
-        NSString *path = [[NSString alloc] initWithFormat:@"%@/html_files/%@", [[NSBundle mainBundle] resourcePath],filename];
+        //NSString *path = [[NSString alloc] initWithFormat:@"%@/html_files/%@", [[NSBundle mainBundle] resourcePath],filename];
+        NSString *path = [[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"/html_files/"] stringByAppendingPathComponent:filename];
         
         //see if the file exists
+        NSLog(@"Checking file at path: %@", path);
         if ([fm fileExistsAtPath:path]){
             NSLog(@"%@ exists...checking mod time", filename);
             //get mod date of local file
@@ -129,6 +146,10 @@
             if ( [local_mod_time compare:server_mod_time] != NSOrderedAscending ){
                 addToList = false;
             }
+        }
+        else
+        {
+            NSLog(@"%@ doesn't exist", filename);
         }
         
         if(addToList){
@@ -148,5 +169,25 @@
     }
 
     return [s substringFromIndex:index+1];
+}
+
+-(void)DoneWithSync
+{
+    NSLog(@"done downloading!");
+    NSString *filePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"/html_files/index.html"];
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:filePath])
+    {
+        NSLog(@"Loading web view!");
+        [webView loadRequest:[NSURLRequest requestWithURL:
+                              [NSURL fileURLWithPath:filePath]]];
+        [self.view addSubview:webView];
+        NSLog(@"web view loaded...");
+    }
+    else
+    {
+        NSLog(@"File does NOT exist");
+    }
 }
 @end
