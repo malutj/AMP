@@ -10,7 +10,4 @@
 
 @interface SettingsPage : UIViewController
 
-@property (weak, nonatomic) IBOutlet UIProgressView *fileProgress;
-
-
 @end

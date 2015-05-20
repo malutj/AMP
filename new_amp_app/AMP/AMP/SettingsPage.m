@@ -11,11 +11,13 @@
 
 @interface SettingsPage ()
 @property (strong, nonatomic) ServerCommManager *commManager;
-@property (weak, nonatomic) IBOutlet UIProgressView *overallProgress;
-@property (weak, nonatomic) IBOutlet UIButton *SyncCancelButton;
+@property (weak, nonatomic) IBOutlet UIButton *SyncButton;
 
 @property (weak, nonatomic) IBOutlet UILabel *fileLabel;
+@property (weak, nonatomic) IBOutlet UIProgressView *fileProgress;
 @property (weak, nonatomic) IBOutlet UILabel *overallLabel;
+@property (weak, nonatomic) IBOutlet UIProgressView *overallProgress;
+
 @property (nonatomic, assign) BOOL syncing;
 @property (strong, nonatomic) NSString *clientCode;
 
@@ -24,117 +26,171 @@
 @implementation SettingsPage
 
 UIWebView *webView;
+bool syncing = false;
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    _commManager = [[ServerCommManager alloc]initWithPage:self];
-    webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
-    self.syncing = false;
-    // Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)SyncCancelPressed:(UIButton *)sender {
-    NSLog(@"Syncing");
     
-    //SYNC BUTTON
-    if (!self.syncing){
-        self.syncing = true;
-        _SyncCancelButton.enabled = false;
+    // initialize the server communication manager
+    self.commManager = [[ServerCommManager alloc]init];
+    self.commManager.progressBarToUpdate = self.fileProgress;
+    
+    // initialize the web view
+    webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+}
+
+//This method resets all of the UI labels and progress bars
+- (void)ResetLabelsAndProgressBars
+{
+    _fileLabel.text = @"";
+    _fileLabel.hidden = false;
+    _overallLabel.text = @"";
+    _overallLabel.hidden = false;
+    _fileProgress.progress = 0.0;
+    _fileProgress.hidden = false;
+    _overallProgress.progress = 0.0;
+    _overallProgress.hidden = false;
+    NSLog(@"Labels and progress bars are reset");
+}
+
+//This method updates the UI labels and progress bars during download
+- (void)UpdateLabelsAndProgressBars:(int)currentFile
+                         totalFiles:(int)totalFiles
+                           filename:(NSString*)filename
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
         
-        //get the file list from the server
-        if (_clientCode == nil){
-            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-            _clientCode = [defaults objectForKey:@"clientCode"];
+        //update overall label
+        self.overallLabel.text = [[NSString alloc] initWithFormat:@"Downloading %d/%d...", currentFile, totalFiles];
+        
+        //update overall progress bar
+        self.overallProgress.progress = (double)(currentFile)/totalFiles;
+        
+        //update file label
+        self.fileLabel.text = filename;
+        
+        //reset file progress bar
+        self.fileProgress.progress = 0;
+    });
+    
+}
+
+//This method downloads a list of files from the server
+- (void)DownloadFileList:(NSMutableArray *)download_list
+{
+    // loop through the download list and download each file
+    for (int i=0; i < [download_list count]; ++i)
+    {
+        //update UI
+        [self UpdateLabelsAndProgressBars:i+1 totalFiles:[download_list count] filename:download_list[i]];
+        
+        // ask the server communication manager to download the file
+        self.commManager.downloading = true;
+        [self DownloadFile: download_list[i]];
+
+        // wait for this download to finish before starting the next
+        while (self.commManager.downloading == true) {
+            [NSThread sleepForTimeInterval:1.5];
         }
-        NSLog(@"Getting the file list");
+    }
+}
+
+//SYNC BUTTON PRESSED
+- (IBAction)SyncPressed:(UIButton *)sender
+{
+    self.SyncButton.enabled = false;
+    
+    //get client code from User settings
+    if (self.clientCode == nil){
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        self.clientCode = [defaults objectForKey:@"clientCode"];
+    }
+    
+    // get the entire list of files for this client
+    NSMutableArray *file_list = [self.commManager GetFileList:self.clientCode];
+    
+    // create the list of files we're going to download
+    NSMutableArray *download_list = [self GetDownloadList:file_list];
+    
+    NSMutableArray *delete_list = [self GetDeleteList:file_list];
+    
+    // reset the labels and progress bars
+    [self ResetLabelsAndProgressBars];
+    
+    // DOWNLOAD THREAD
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        // download the file list
+        [self DownloadFileList:download_list];
         
-        NSMutableArray *file_list = [_commManager GetFileList:_clientCode];
-        
-        NSLog(@"Creating download list");
-        NSMutableArray *download_list = [self GetDownloadList:file_list];
-        
-        int total_file_count = [download_list count];
-        _fileLabel.text = @"";
-        _fileLabel.hidden = false;
-        _overallLabel.text = @"";
-        _overallLabel.hidden = false;
-        _fileProgress.progress = 0.0;
-        _fileProgress.hidden = false;
-        _overallProgress.progress = 0.0;
-        _overallProgress.hidden = false;
-        
-        // DOWNLOAD THREAD
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            for (int i; i < [download_list count]; ++i) {
-                //update UI on UI thread
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    //update overall label
-                    NSLog(@"Setting label text");
-                    _overallLabel.text = [[NSString alloc] initWithFormat:@"Downloading %d/%d...", i+1, total_file_count];
-                    
-                    //update progress bar
-                    _overallProgress.progress = (i+1)/total_file_count;
-                    
-                    //update file label
-                    _fileLabel.text = download_list[i];
-                    
-                    //reset file progress bar
-                    _fileProgress.progress = 0;
-                });
-                
-                _commManager.downloading = true;
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-                    [self DownloadFile: download_list[i]];
-                });
-                
-                while (_commManager.downloading == true) {
-                    //wait
-                    NSLog(@"Waiting...");
-                    [NSThread sleepForTimeInterval:2];
-                }
-            }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self DoneWithSync];
-            });
+        // let main thread know that we finished downloading
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self DoneWithSync];
         });
-        
-        
-        
-    }
-    //CANCEL BUTTON
-    else{
-        self.syncing = false;
-    }
+    });
 }
 
--(void)DownloadFile: (NSString *)filename{
-    NSString *path = [[NSString alloc] initWithFormat:@"%@/html_files/%@", [[NSBundle mainBundle] resourcePath],[self GetFileName:filename]];
-    [_commManager DownloadFile:filename toPath:path withProgressBar:_fileProgress];
+- (void)DownloadFile: (NSString *)filename{
+    // create the path to which we want to download the file
+    NSString *path = [[NSBundle mainBundle] resourcePath];
+    path = [path stringByAppendingPathComponent:@"/html_files/"];
+    path = [path stringByAppendingPathComponent:[self GetFileName:filename]];
+    
+    // dispatch the download
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+        [self.commManager DownloadFile:filename toPath:path];
+    });
+    
 }
 
--(NSMutableArray *)GetDownloadList: (NSMutableArray *)file_list
+- (NSMutableArray *)GetDeleteList: (NSMutableArray *)file_list
+{
+    NSMutableArray *delete_list = [[NSMutableArray alloc] init];
+    NSFileManager *fm = [[NSFileManager alloc] init];
+    
+    //build the path to the root html_files directory
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    path = [path stringByAppendingPathComponent:@"/html_files/"];
+    
+    NSDirectoryEnumerator *directory = [fm enumeratorAtPath:path];
+                                        
+    for (NSString *file in directory)
+    {
+        BOOL isDirectory = NO;
+        [fm fileExistsAtPath:path isDirectory:&isDirectory];
+        if (isDirectory == YES)
+        {
+            NSLog(@"Directory: %@", file);
+
+        }
+        else
+        {
+            NSLog(@"File: %@", file);
+        }
+    }
+
+    return delete_list;
+}
+
+- (NSMutableArray *)GetDownloadList: (NSMutableArray *)file_list
 {
     NSMutableArray *download_list = [[NSMutableArray alloc] init];
     NSFileManager *fm = [[NSFileManager alloc] init];
 
-    BOOL addToList;
-    
+    bool addToList;
     for (int i = 0; i < [file_list count]; ++i) {
         addToList = true;
-        //get the clean filename (no 'common' or 'client_name' folder at the front of the path)
+        
+        //get the clean filename
         NSString *filename = [self GetFileName: file_list[i][0]];
-        //NSString *path = [[NSString alloc] initWithFormat:@"%@/html_files/%@", [[NSBundle mainBundle] resourcePath],filename];
-        NSString *path = [[[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"/html_files/"] stringByAppendingPathComponent:filename];
+        
+        //build the path to the file
+        NSString *path = [[NSBundle mainBundle] bundlePath];
+        path = [path stringByAppendingPathComponent:@"/html_files/"];
+        path = [path stringByAppendingPathComponent:filename];
         
         //see if the file exists
-        NSLog(@"Checking file at path: %@", path);
         if ([fm fileExistsAtPath:path]){
-            NSLog(@"%@ exists...checking mod time", filename);
             //get mod date of local file
             NSDictionary *file_attributes = [fm attributesOfItemAtPath:path error:nil];
             NSDate *local_mod_time = [file_attributes objectForKey:NSFileModificationDate];
@@ -147,12 +203,9 @@ UIWebView *webView;
                 addToList = false;
             }
         }
-        else
-        {
-            NSLog(@"%@ doesn't exist", filename);
-        }
         
         if(addToList){
+            NSLog(@"%@", file_list[i][0]);
             [download_list addObject:file_list[i][0]];
         }
     }
@@ -160,7 +213,10 @@ UIWebView *webView;
     return download_list;
 }
 
--(NSString *)GetFileName: (NSString *)s{
+//This method removes the leading directory from the string
+//and returns just the filename
+//ex. "/Common/index.html" returns as "index.html"
+- (NSString *)GetFileName: (NSString *)s{
     int index = 0;
     for (index = 1; index < [s length]; ++index) {
         if ([s characterAtIndex:index] == '/') {
@@ -171,23 +227,27 @@ UIWebView *webView;
     return [s substringFromIndex:index+1];
 }
 
--(void)DoneWithSync
+//This method loads and displays the root html file in the html_files folder
+- (void)OpenWebView
 {
-    NSLog(@"done downloading!");
+    // find the path to the index.html file
     NSString *filePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"/html_files/index.html"];
-
+    
+    // make sure the file exists
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:filePath])
     {
-        NSLog(@"Loading web view!");
+        // load and display the web page
         [webView loadRequest:[NSURLRequest requestWithURL:
                               [NSURL fileURLWithPath:filePath]]];
         [self.view addSubview:webView];
-        NSLog(@"web view loaded...");
     }
-    else
-    {
-        NSLog(@"File does NOT exist");
-    }
+}
+
+//This method is called when the sync process is finished
+- (void)DoneWithSync
+{
+    self.SyncButton.enabled = true;
+    [self OpenWebView];
 }
 @end

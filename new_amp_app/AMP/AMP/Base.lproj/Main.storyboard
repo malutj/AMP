@@ -39,7 +39,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="SyncCancelPressed:" destination="eqe-mx-tqS" eventType="touchUpInside" id="qyB-WN-2uB"/>
+                                    <action selector="SyncPressed:" destination="eqe-mx-tqS" eventType="touchUpInside" id="yEI-KL-e66"/>
                                 </connections>
                             </button>
                             <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Xbq-DS-dJr">
@@ -78,7 +78,7 @@
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
-                        <outlet property="SyncCancelButton" destination="WaZ-ZB-F8b" id="17D-eG-Q8a"/>
+                        <outlet property="SyncButton" destination="WaZ-ZB-F8b" id="HP1-Wj-Ndd"/>
                         <outlet property="fileLabel" destination="IRq-FZ-PIU" id="MdY-ib-9MA"/>
                         <outlet property="fileProgress" destination="TyH-ws-PNc" id="crZ-DH-PAv"/>
                         <outlet property="overallLabel" destination="Gaz-8r-krj" id="Y3M-iO-6fQ"/>

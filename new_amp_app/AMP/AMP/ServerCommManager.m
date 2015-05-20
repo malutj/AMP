@@ -10,7 +10,6 @@
 
 @implementation ServerCommManager
 
-SettingsPage *sp;
 NSString *server = @"http://ampupmypractice.com/";
 NSURL *base_url;
 NSString *app_code = @"j5K4F98j3vnME57G10f";
@@ -21,12 +20,6 @@ NSMutableData *fileData;
 NSString *file_name;
 NSString *file_path;
 NSFileHandle *file;
-
--(id)initWithPage:(SettingsPage *) page
-{
-    sp = page;
-    return [self init];
-}
 
 -(id)init
 {
@@ -39,28 +32,22 @@ NSFileHandle *file;
 -(BOOL)LoginWithClientCode:(NSString*)clientCode
         AndReturnMessage:(NSString**)returnMessage
 {
-    NSLog(@"Creating URL request");
+    // create the url request
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] init];
-    NSLog(@"base url: %@", base_url.path);
     [req setURL:[NSURL URLWithString: @"php/clients.php" relativeToURL:base_url]];
     [req setHTTPMethod:@"POST"];
-    NSLog(@"URL created [%@]", req.URL.absoluteString);
     
-    NSLog(@"Creating request body");
+    // create the request body
     NSString *body = [NSString stringWithFormat:@"request_type=validate&clientCode=%@", clientCode];
     [req setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[body length]] forHTTPHeaderField:@"Content-Length"];
     [req setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
     
+    // send the request
     NSHTTPURLResponse *responseCode = nil;
-    NSLog(@"Sending login request [%@]", clientCode);
-    NSError *error = nil;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:req
                                                  returningResponse:&responseCode
-                                                             error:&error];
-    if (error)
-    {
-        NSLog(@"Something went wrong - %@", [error userInfo]);
-    }
+                                                             error:nil];
+    // check the response code
     if ([responseCode statusCode] != 200)
     {
         NSLog(@"Error logging in (%li) - %@", (long)responseCode.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:responseCode.statusCode]);
@@ -68,9 +55,11 @@ NSFileHandle *file;
         return false;
     }
     
+    // get the response array that the server sent
     NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData
                                                              options:NSJSONReadingMutableContainers
                                                                error:nil];
+    // get the status that the server sent
     NSString *status = [response objectForKey:@"status"];
     
     if (![status isEqual: @"success"])
@@ -79,7 +68,6 @@ NSFileHandle *file;
         return false;
     }
     
-    NSLog(@"Looks like our request was successful!");
     *returnMessage = @"Success!";
     
     return true;
@@ -87,27 +75,28 @@ NSFileHandle *file;
 
 -(NSMutableArray*)GetFileList:(NSString *)clientCode{
     
-    NSLog(@"Creating URL request");
+    // create the url request
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] init];
     [req setURL:[NSURL URLWithString: @"php/sync.php" relativeToURL:base_url]];
     [req setHTTPMethod:@"POST"];
-    NSLog(@"URL created [%@]", req.URL.absoluteString);
     
-    NSLog(@"Creating request body");
+    // create the url request body
     NSString *body = [NSString stringWithFormat:@"app_code=%@&code=%@", app_code, clientCode];
     [req setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[body length]] forHTTPHeaderField:@"Content-Length"];
     [req setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
     
+    // send the request
     NSHTTPURLResponse *responseCode = nil;
-    NSLog(@"Sending request for file list [%@]", clientCode);
     NSData *responseData = [NSURLConnection sendSynchronousRequest:req
                                                  returningResponse:&responseCode
                                                              error:nil];
+    // check the response
     if ([responseCode statusCode] != 200)
     {
         NSLog(@"Error getting file list (%li) - %@", (long)responseCode.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:responseCode.statusCode]);
         return nil;
     }
+    
     
     NSDictionary *response = [NSJSONSerialization JSONObjectWithData:responseData
                                                              options:NSJSONReadingMutableContainers
@@ -115,19 +104,20 @@ NSFileHandle *file;
     NSString *status = [response objectForKey:@"status"];
     if ([status isEqual: @"success"])
     {
-        NSLog(@"Looks like our request was successful!");
         return [response objectForKey:@"file_list"];
     }
-    else{
+    else
+    {
         NSLog(@"Looks like our call failed");
         NSLog(@"%@", [response objectForKey:@"msg"]);
     }
+    
     return nil;
 }
 
 -(BOOL)DownloadFile:(NSString *)filename
              toPath:(NSString *)path
-    withProgressBar:(UIProgressView *)progressBar{
+{
     self.totalBytes = 0;
     self.receivedBytes = 0;
     file_name = filename;
@@ -141,7 +131,7 @@ NSFileHandle *file;
     [req setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[body length]] forHTTPHeaderField:@"Content-Length"];
     [req setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
 
-    NSLog(@"Sending file download request [%@]", filename);
+    
     
     NSURLConnection *connection = [[NSURLConnection alloc ]initWithRequest:req delegate:self startImmediately:NO];
     [connection scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
@@ -154,17 +144,15 @@ NSFileHandle *file;
 - (void)connection:(NSURLConnection *)connection
 didReceiveResponse:(NSURLResponse *)response
 {
-    NSLog(@"didReceiveResponse");
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
     NSDictionary *dict = httpResponse.allHeaderFields;
     NSString *lengthString = [dict valueForKey:@"Content-Length"];
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     NSNumber *length = [formatter numberFromString:lengthString];
     self.totalBytes = length.unsignedIntegerValue;
-    NSLog(@"Total download bytes: %d", self.totalBytes);
+    NSLog(@"Downloading %@,%dB", file_name, self.totalBytes);
     
     //find the file in the directory and save it in a file variable
-    NSLog(@"saving file to path: %@", file_path);
     file = [NSFileHandle fileHandleForWritingAtPath:file_path];
     if (file)
     {
@@ -175,32 +163,26 @@ didReceiveResponse:(NSURLResponse *)response
         [[NSFileManager defaultManager] createFileAtPath:file_path contents:nil attributes:nil];
         file = [NSFileHandle fileHandleForWritingAtPath:file_path];
     }
-
-    
 }
 
 - (void)connection:(NSURLConnection *)connection
     didReceiveData:(NSData *)data
 {
-    NSLog(@"didReceiveData");
     //save to file here
     [file writeData:data];
     
     self.receivedBytes += data.length;
-    NSLog(@"received bytes: %d", self.receivedBytes);
     
     //update progress bar
     double progress = (double)self.receivedBytes / self.totalBytes;
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSLog(@"updating progress bar: %d/%d = %f", self.receivedBytes, self.totalBytes, progress);
-        [sp.fileProgress setProgress:progress animated:true];
+        [self.progressBarToUpdate setProgress:progress animated:YES];
     });
     
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSLog(@"didFinishLoading");
     [file closeFile];
     _downloading = false;
 }

@@ -9,16 +9,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "SettingsPage.h"
 
 @interface ServerCommManager : NSObject<NSURLConnectionDataDelegate>
 
-@property (nonatomic) NSMutableData *imageData;
 @property (nonatomic) NSUInteger totalBytes;
 @property (nonatomic) NSUInteger receivedBytes;
 @property (nonatomic) BOOL downloading;
-
--(id)initWithPage:(SettingsPage*) page;
+@property (nonatomic) UIProgressView *progressBarToUpdate;
 
 -(BOOL)LoginWithClientCode:(NSString*)clientCode
         AndReturnMessage:(NSString**)returnMessage;
@@ -26,7 +23,6 @@
 -(NSMutableArray*) GetFileList:(NSString*)clientCode;
 
 -(BOOL)DownloadFile:(NSString *)filename
-             toPath:(NSString *)path
-    withProgressBar:(UIProgressView *)progressBar;
+             toPath:(NSString *)path;
 
 @end
