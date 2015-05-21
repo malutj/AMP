@@ -40,7 +40,7 @@ $result = get_file_dates($merged_list);
 
 $response['status'] = 'success';
 $response['file_list'] = $result;
-$response['msg'] = "it appears to have worked";
+$response['msg'] = "Sync list incoming";
 echo json_encode($response);
 exit;
 
@@ -77,12 +77,12 @@ function get_client_directory(){
     global $main_dir;
     $code = strip_tags($_POST['code']);
     try{
-        $query = 'SELECT name FROM clients WHERE clients.code = :client_code';
+        $query = 'SELECT client_name FROM clients WHERE client_code = :client_code';
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':client_code', $code);
         if($stmt->execute()){
             $row = $stmt->fetch();
-            return '/'.str_replace(" ", "_", $row['name']).'_'.$code;
+            return '/'.str_replace(" ", "_", $row['client_name']);
         }
     }
     catch(PDOException $e){
