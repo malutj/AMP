@@ -1,3 +1,19 @@
+Skip to content
+This repository  
+Explore
+Gist
+Blog
+Help
+@malutj malutj
+ 
+ Unwatch 1
+  Star 0
+  Fork 0
+malutj/AMP
+ branch: master  AMP/new_amp_app/AMP/AMP/SettingsPage.m
+@malutjmalutj 13 days ago updates
+1 contributor
+RawBlameHistory     253 lines (202 sloc)  8.094 kb
 //
 //  SettingsPage.m
 //  AMP
@@ -96,7 +112,7 @@ bool syncing = false;
     }
 }
 
-//SYNC BUTTON PRESSED
+// SYNC BUTTON PRESSED
 - (IBAction)SyncPressed:(UIButton *)sender
 {
     self.SyncButton.enabled = false;
@@ -113,6 +129,7 @@ bool syncing = false;
     // create the list of files we're going to download
     NSMutableArray *download_list = [self GetDownloadList:file_list];
     
+    // create the list of files we're going to delete
     NSMutableArray *delete_list = [self GetDeleteList:file_list];
     
     // reset the labels and progress bars
@@ -130,6 +147,7 @@ bool syncing = false;
     });
 }
 
+//This function asynchronously downloads the specified file.
 - (void)DownloadFile: (NSString *)filename{
     // create the path to which we want to download the file
     NSString *path = [[NSBundle mainBundle] resourcePath];
@@ -143,6 +161,8 @@ bool syncing = false;
     
 }
 
+//This function creates a list of all files in the html_files directory
+//that need to be deleted.
 - (NSMutableArray *)GetDeleteList: (NSMutableArray *)file_list
 {
     NSMutableArray *delete_list = [[NSMutableArray alloc] init];
@@ -161,7 +181,6 @@ bool syncing = false;
         if (isDirectory == YES)
         {
             NSLog(@"Directory: %@", file);
-
         }
         else
         {
@@ -172,6 +191,8 @@ bool syncing = false;
     return delete_list;
 }
 
+//This function creates a list of all files on the server that
+//need to be downloaded.
 - (NSMutableArray *)GetDownloadList: (NSMutableArray *)file_list
 {
     NSMutableArray *download_list = [[NSMutableArray alloc] init];
@@ -213,8 +234,7 @@ bool syncing = false;
     return download_list;
 }
 
-//This method removes the leading directory from the string
-//and returns just the filename
+//This method removes the leading directory from the string and returns just the filename
 //ex. "/Common/index.html" returns as "index.html"
 - (NSString *)GetFileName: (NSString *)s{
     int index = 0;
@@ -251,3 +271,5 @@ bool syncing = false;
     [self OpenWebView];
 }
 @end
+Status API Training Shop Blog About
+© 2015 GitHub, Inc. Terms Privacy Security Contact
