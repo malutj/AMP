@@ -1,19 +1,3 @@
-Skip to content
-This repository  
-Explore
-Gist
-Blog
-Help
-@malutj malutj
- 
- Unwatch 1
-  Star 0
-  Fork 0
-malutj/AMP
- branch: master  AMP/new_amp_app/AMP/AMP/SettingsPage.m
-@malutjmalutj 13 days ago updates
-1 contributor
-RawBlameHistory     253 lines (202 sloc)  8.094 kb
 //
 //  SettingsPage.m
 //  AMP
@@ -271,5 +255,3 @@ bool syncing = false;
     [self OpenWebView];
 }
 @end
-Status API Training Shop Blog About
-© 2015 GitHub, Inc. Terms Privacy Security Contact
