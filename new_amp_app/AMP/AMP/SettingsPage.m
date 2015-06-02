@@ -114,7 +114,7 @@ bool syncing = false;
     NSMutableArray *download_list = [self GetDownloadList:file_list];
     
     // create the list of files we're going to delete
-    NSMutableArray *delete_list = [self GetDeleteList:file_list];
+    //NSMutableArray *delete_list = [self GetDeleteList:file_list];
     
     // reset the labels and progress bars
     [self ResetLabelsAndProgressBars];
@@ -131,7 +131,7 @@ bool syncing = false;
     });
 }
 
-//This function asynchronously downloads the specified file.
+//This method asynchronously downloads the specified file.
 - (void)DownloadFile: (NSString *)filename{
     // create the path to which we want to download the file
     NSString *path = [[NSBundle mainBundle] resourcePath];
@@ -145,7 +145,7 @@ bool syncing = false;
     
 }
 
-//This function creates a list of all files in the html_files directory
+//This method creates a list of all files in the html_files directory
 //that need to be deleted.
 - (NSMutableArray *)GetDeleteList: (NSMutableArray *)file_list
 {
@@ -175,7 +175,7 @@ bool syncing = false;
     return delete_list;
 }
 
-//This function creates a list of all files on the server that
+//This method creates a list of all files on the server that
 //need to be downloaded.
 - (NSMutableArray *)GetDownloadList: (NSMutableArray *)file_list
 {
@@ -254,4 +254,18 @@ bool syncing = false;
     self.SyncButton.enabled = true;
     [self OpenWebView];
 }
+/*
+//This method is called whenever a link is pressed within the web view
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
+                                                 navigationType:(UIWebViewNavigationType)navigationType
+{
+    if ([[request.URL path]  isEqual: @"SettingsPage"])
+    {
+        [webView removeFromSuperview];
+        return NO;
+    }
+
+    return YES;
+}*/
+
 @end
