@@ -38,6 +38,10 @@ bool syncing = false;
     
     // initialize the web view
     webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    
+    // update the look of the sync buton
+    self.SyncButton.layer.cornerRadius = 4;
+    self.SyncButton.clipsToBounds = YES;
 }
 
 //This method resets all of the UI labels and progress bars
