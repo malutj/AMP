@@ -51,7 +51,18 @@ bool syncing = false;
     _fileProgress.hidden = false;
     _overallProgress.progress = 0.0;
     _overallProgress.hidden = false;
-    NSLog(@"Labels and progress bars are reset");
+}
+
+- (void)HideLabelsAndProgressBars
+{
+    // this clears all the labels
+    [self ResetLabelsAndProgressBars];
+    
+    // now hide everything until sync is pressed again
+    _fileLabel.hidden = true;
+    _overallLabel.hidden = true;
+    _fileProgress.hidden = true;
+    _overallProgress.hidden = true;
 }
 
 //This method updates the UI labels and progress bars during download
@@ -113,8 +124,8 @@ bool syncing = false;
     // create the list of files we're going to download
     NSMutableArray *download_list = [self GetDownloadList:file_list];
     
-    // create the list of files we're going to delete
-    //NSMutableArray *delete_list = [self GetDeleteList:file_list];
+    // delete all of the files that are no longer needed
+    [self DeleteOldFiles:file_list];
     
     // reset the labels and progress bars
     [self ResetLabelsAndProgressBars];
@@ -147,9 +158,8 @@ bool syncing = false;
 
 //This method creates a list of all files in the html_files directory
 //that need to be deleted.
-- (NSMutableArray *)GetDeleteList: (NSMutableArray *)file_list
+- (void)DeleteOldFiles: (NSMutableArray *)file_list
 {
-    NSMutableArray *delete_list = [[NSMutableArray alloc] init];
     NSFileManager *fm = [[NSFileManager alloc] init];
     
     //build the path to the root html_files directory
@@ -161,18 +171,31 @@ bool syncing = false;
     for (NSString *file in directory)
     {
         BOOL isDirectory = NO;
-        [fm fileExistsAtPath:path isDirectory:&isDirectory];
-        if (isDirectory == YES)
+        NSString *fullpath = [path stringByAppendingPathComponent: file];
+        [fm fileExistsAtPath:fullpath isDirectory:&isDirectory];
+        if (!isDirectory)
         {
-            NSLog(@"Directory: %@", file);
-        }
-        else
-        {
-            NSLog(@"File: %@", file);
+            BOOL delete = true;
+            // loop through our file list and mark items not found for deletion
+            for (int i = 0; i < [file_list count]; ++i)
+            {
+                NSString *found_file = file_list[i][0];
+                
+                if ([[self GetFileName:found_file] isEqual:file])
+                {
+                    delete = false;
+                    break;
+                }
+            }
+            if (delete)
+            {
+                NSLog(@"Deleting '%@'", file);
+                [fm removeItemAtPath:fullpath error:nil];
+            }
+            
+            
         }
     }
-
-    return delete_list;
 }
 
 //This method creates a list of all files on the server that
@@ -210,7 +233,7 @@ bool syncing = false;
         }
         
         if(addToList){
-            NSLog(@"%@", file_list[i][0]);
+            //NSLog(@"%@", file_list[i][0]);
             [download_list addObject:file_list[i][0]];
         }
     }
@@ -241,9 +264,17 @@ bool syncing = false;
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:filePath])
     {
-        // load and display the web page
+        // load the web page
         [webView loadRequest:[NSURLRequest requestWithURL:
                               [NSURL fileURLWithPath:filePath]]];
+        
+        // hide the status bar
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
+        
+        // add self as the delegate for the webview callbacks
+        [webView setDelegate:self];
+        
+        // display the webview
         [self.view addSubview:webView];
     }
 }
@@ -252,20 +283,21 @@ bool syncing = false;
 - (void)DoneWithSync
 {
     self.SyncButton.enabled = true;
+    [self HideLabelsAndProgressBars];
     [self OpenWebView];
 }
-/*
+
 //This method is called whenever a link is pressed within the web view
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
                                                  navigationType:(UIWebViewNavigationType)navigationType
 {
-    if ([[request.URL path]  isEqual: @"SettingsPage"])
+    if ([[request.URL lastPathComponent]  isEqual: @"SettingsPage"])
     {
         [webView removeFromSuperview];
         return NO;
     }
 
     return YES;
-}*/
+}
 
 @end

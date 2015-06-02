@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsPage : UIViewController
+@interface SettingsPage : UIViewController<UIWebViewDelegate>
 
 @end

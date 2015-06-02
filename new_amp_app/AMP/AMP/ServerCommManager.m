@@ -108,7 +108,7 @@ NSFileHandle *file;
     }
     else
     {
-        NSLog(@"Looks like our call failed");
+        NSLog(@"File list http request failed");
         NSLog(@"%@", [response objectForKey:@"msg"]);
     }
     
@@ -125,7 +125,6 @@ NSFileHandle *file;
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] init];
     [req setURL:[NSURL URLWithString: @"php/download.php" relativeToURL:base_url]];
     [req setHTTPMethod:@"POST"];
-    NSLog(@"URL created [%@]", req.URL.absoluteString);
 
     NSString *body = [NSString stringWithFormat:@"app_code=%@&file=%@", app_code, filename];
     [req setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[body length]] forHTTPHeaderField:@"Content-Length"];
@@ -150,7 +149,7 @@ didReceiveResponse:(NSURLResponse *)response
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     NSNumber *length = [formatter numberFromString:lengthString];
     self.totalBytes = length.unsignedIntegerValue;
-    NSLog(@"Downloading %@,%dB", file_name, self.totalBytes);
+
     
     //find the file in the directory and save it in a file variable
     file = [NSFileHandle fileHandleForWritingAtPath:file_path];
@@ -160,6 +159,11 @@ didReceiveResponse:(NSURLResponse *)response
     }
     else
     {
+        // try to create the directories for the new file in case they're missing
+        NSString *directories = [file_path stringByDeletingLastPathComponent];
+        [[NSFileManager defaultManager] createDirectoryAtPath:directories withIntermediateDirectories:YES attributes:nil error:nil];
+        
+        // create the new file
         [[NSFileManager defaultManager] createFileAtPath:file_path contents:nil attributes:nil];
         file = [NSFileHandle fileHandleForWritingAtPath:file_path];
     }
