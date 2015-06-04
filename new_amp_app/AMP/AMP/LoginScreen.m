@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *clientCodeField;
 @property (weak, nonatomic) IBOutlet UILabel *response;
 @property (strong, nonatomic) ServerCommManager *commManager;
+@property (weak, nonatomic) IBOutlet UIButton *connectButton;
 
 @end
 
@@ -24,6 +25,10 @@
     [super viewDidLoad];
     _commManager = [[ServerCommManager alloc]init];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    // update the look of the sync buton
+    self.connectButton.layer.cornerRadius = 10;
+    self.connectButton.clipsToBounds = YES;
 }
 
 - (void)didReceiveMemoryWarning {

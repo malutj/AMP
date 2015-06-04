@@ -9,7 +9,18 @@
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="-1" y="0.0" width="473" height="480"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="amp_ApIcon-1537x2050" translatesAutoresizingMaskIntoConstraints="NO" id="gqv-Gq-9Uu">
+                    <rect key="frame" x="0.0" y="0.0" width="473" height="480"/>
+                </imageView>
+            </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="gqv-Gq-9Uu" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="4VY-cM-M8I"/>
+                <constraint firstAttribute="trailing" secondItem="gqv-Gq-9Uu" secondAttribute="trailing" id="4g2-CC-QFI"/>
+                <constraint firstItem="gqv-Gq-9Uu" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="r9J-tI-ed5"/>
+                <constraint firstAttribute="bottom" secondItem="gqv-Gq-9Uu" secondAttribute="bottom" id="z40-UC-MUU"/>
+            </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
@@ -17,4 +28,7 @@
             <point key="canvasLocation" x="551.5" y="491"/>
         </view>
     </objects>
+    <resources>
+        <image name="amp_ApIcon-1537x2050" width="768" height="1024"/>
+    </resources>
 </document>

@@ -40,8 +40,13 @@ bool syncing = false;
     webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     
     // update the look of the sync buton
-    self.SyncButton.layer.cornerRadius = 4;
+    self.SyncButton.layer.cornerRadius = 10;
     self.SyncButton.clipsToBounds = YES;
+    
+    // update height of progress bars
+    //[self.fileProgress setFrame:CGRectMake(0, 0, 300, 25)];
+    [self.fileProgress setTransform:CGAffineTransformMakeScale(1.0, 3.0)];
+    [self.overallProgress setTransform:CGAffineTransformMakeScale(1.0, 3.0)];
 }
 
 //This method resets all of the UI labels and progress bars
