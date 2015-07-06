@@ -103,7 +103,7 @@ bool syncing = false;
     for (int i=0; i < [download_list count]; ++i)
     {
         //update UI
-        [self UpdateLabelsAndProgressBars:i+1 totalFiles:[download_list count] filename:download_list[i]];
+        [self UpdateLabelsAndProgressBars:i+1 totalFiles:(int)[download_list count] filename:download_list[i]];
         
         // ask the server communication manager to download the file
         self.commManager.downloading = true;
