@@ -134,6 +134,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="M2u-J2-ZuY">
                                 <rect key="frame" x="213" y="241" width="175" height="30"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="ajP-QW-1Qy"/>
                                     <constraint firstAttribute="width" constant="175" id="h9K-t4-pQZ"/>
                                 </constraints>
                                 <color key="textColor" red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
@@ -186,11 +187,19 @@
                                 <color key="textColor" red="0.43529411759999997" green="0.1058823529" blue="0.43529411759999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="tr.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="y9C-WL-td5">
+                                <rect key="frame" x="180" y="363" width="240" height="128"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="6xy-bp-fEl"/>
+                                    <constraint firstAttribute="height" constant="128" id="924-w5-QQ3"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Hg1-lY-LmC" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.15" id="2F0-fW-zo7"/>
                             <constraint firstItem="me8-3x-bGQ" firstAttribute="top" secondItem="Hg1-lY-LmC" secondAttribute="bottom" multiplier="2" id="5G2-Br-p1e"/>
+                            <constraint firstItem="y9C-WL-td5" firstAttribute="top" secondItem="Th2-hG-dPI" secondAttribute="bottom" constant="19" id="Dk6-PF-mjw"/>
                             <constraint firstAttribute="centerX" secondItem="M2u-J2-ZuY" secondAttribute="centerX" id="Hlq-Ga-Wdt"/>
                             <constraint firstItem="RvC-Tu-fRA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="JNM-dv-b79"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="RvC-Tu-fRA" secondAttribute="bottom" id="Lqd-0i-DSK"/>
@@ -199,6 +208,7 @@
                             <constraint firstAttribute="centerX" secondItem="Hg1-lY-LmC" secondAttribute="centerX" id="Pl4-mt-iZV"/>
                             <constraint firstAttribute="centerX" secondItem="Th2-hG-dPI" secondAttribute="centerX" id="Q5o-rZ-L1g"/>
                             <constraint firstItem="M2u-J2-ZuY" firstAttribute="top" secondItem="me8-3x-bGQ" secondAttribute="bottom" constant="25" id="WrA-Ja-vhe"/>
+                            <constraint firstAttribute="centerX" secondItem="y9C-WL-td5" secondAttribute="centerX" id="Yut-fi-Mjd"/>
                             <constraint firstItem="RvC-Tu-fRA" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="0.15" id="ZJU-cG-QOd"/>
                             <constraint firstItem="JXU-Lo-d9A" firstAttribute="top" secondItem="Th2-hG-dPI" secondAttribute="bottom" constant="38" id="bZO-pv-1Qu"/>
                             <constraint firstItem="Hg1-lY-LmC" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="cum-P9-oOW"/>
@@ -212,6 +222,7 @@
                         <outlet property="clientCodeField" destination="M2u-J2-ZuY" id="gOq-1T-PU9"/>
                         <outlet property="connectButton" destination="Th2-hG-dPI" id="7Yz-AJ-lNP"/>
                         <outlet property="response" destination="JXU-Lo-d9A" id="RBF-8t-aq0"/>
+                        <outlet property="tr" destination="y9C-WL-td5" id="xC9-yH-5A5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -219,4 +230,7 @@
             <point key="canvasLocation" x="246" y="285"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="tr.jpg" width="410" height="223"/>
+    </resources>
 </document>

@@ -17,6 +17,7 @@
 @property (strong, nonatomic) ServerCommManager *commManager;
 @property (weak, nonatomic) IBOutlet UIButton *connectButton;
 
+@property (weak, nonatomic) IBOutlet UIImageView *tr;
 @end
 
 @implementation LoginScreen
@@ -39,7 +40,20 @@
 - (IBAction)connectButtonPressed:(UIButton *)sender {
     NSString *clientCode = self.clientCodeField.text;
     if([clientCode length]==0){
+        _response.text = @"Please enter a client code";
         NSLog(@"Attempt to log in with no username and/or password");
+        return;
+    }
+    else if([clientCode isEqualToString:@"danoonez"])
+    {
+        _response.text = @"";
+        _tr.hidden = false;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            sleep(2);
+            dispatch_async(dispatch_get_main_queue(), ^{
+               _tr.hidden = true;
+            });
+        });
         return;
     }
     NSString *returnMessage;
@@ -53,6 +67,22 @@
         
         //set client code in user defaults
         [self setClientCode:clientCode];
+        
+        //create the html_files directory
+        NSArray *path_array = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *path = path_array[0];
+        NSError * error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:path
+                                  withIntermediateDirectories:YES
+                                                   attributes:nil
+                                                        error:&error];
+        
+        if (error != nil) {
+            _response.text = @"Error creating the html_files folder";
+            NSLog(@"error creating directory: %@", error);
+            return;
+        }
+        
         /*
         NSLog(@"messing with navigation controller");
         //close this view and open settings page
@@ -92,5 +122,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:clientCode forKey:@"clientCode"];
 }
+
+
 
 @end

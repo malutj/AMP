@@ -29,6 +29,7 @@ NSFileHandle *file;
     return self;
 }
 
+
 -(BOOL)LoginWithClientCode:(NSString*)clientCode
         AndReturnMessage:(NSString**)returnMessage
 {
@@ -73,6 +74,7 @@ NSFileHandle *file;
     return true;
 }
 
+
 -(NSMutableArray*)GetFileList:(NSString *)clientCode{
     
     // create the url request
@@ -114,6 +116,7 @@ NSFileHandle *file;
     
     return nil;
 }
+
 
 -(BOOL)DownloadFile:(NSString *)filename
              toPath:(NSString *)path

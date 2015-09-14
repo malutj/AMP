@@ -24,7 +24,6 @@
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
-    
     UIViewController *viewController;
     if([self clientCodeIsSet]){
         viewController = [storyboard instantiateViewControllerWithIdentifier:@"SettingsPage"];

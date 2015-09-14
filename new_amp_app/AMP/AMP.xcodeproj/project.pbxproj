@@ -13,10 +13,9 @@
 		0964486D1AE71DC10042722A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0964486B1AE71DC10042722A /* Main.storyboard */; };
 		0964486F1AE71DC10042722A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0964486E1AE71DC10042722A /* Images.xcassets */; };
 		096448721AE71DC10042722A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 096448701AE71DC10042722A /* LaunchScreen.xib */; };
-		0964487E1AE71DC20042722A /* AMPTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0964487D1AE71DC20042722A /* AMPTests.m */; };
 		097B55561AEF1E6300817DEF /* ServerCommManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 097B55551AEF1E6300817DEF /* ServerCommManager.m */; };
 		09991B0E1AEF2C1100585204 /* SettingsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 09991B0D1AEF2C1100585204 /* SettingsPage.m */; };
-		09991B131AEF31EE00585204 /* html_files in Resources */ = {isa = PBXBuildFile; fileRef = 09991B121AEF31EE00585204 /* html_files */; };
+		09AE70011B7968D000EF0595 /* tr.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 09AE70001B7968D000EF0595 /* tr.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,13 +40,11 @@
 		0964486E1AE71DC10042722A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		096448711AE71DC10042722A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		096448771AE71DC10042722A /* AMPTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AMPTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0964487C1AE71DC20042722A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0964487D1AE71DC20042722A /* AMPTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AMPTests.m; sourceTree = "<group>"; };
 		097B55541AEF1E6300817DEF /* ServerCommManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerCommManager.h; sourceTree = "<group>"; };
 		097B55551AEF1E6300817DEF /* ServerCommManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerCommManager.m; sourceTree = "<group>"; };
 		09991B0D1AEF2C1100585204 /* SettingsPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsPage.m; sourceTree = "<group>"; };
 		09991B0F1AEF2C2700585204 /* SettingsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsPage.h; sourceTree = "<group>"; };
-		09991B121AEF31EE00585204 /* html_files */ = {isa = PBXFileReference; lastKnownFileType = folder; name = html_files; path = AMP/html_files; sourceTree = "<group>"; };
+		09AE70001B7968D000EF0595 /* tr.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tr.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,9 +68,7 @@
 		096448551AE71DC10042722A = {
 			isa = PBXGroup;
 			children = (
-				09991B121AEF31EE00585204 /* html_files */,
 				096448601AE71DC10042722A /* AMP */,
-				0964487A1AE71DC10042722A /* AMPTests */,
 				0964485F1AE71DC10042722A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -109,25 +104,9 @@
 		096448611AE71DC10042722A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				09AE70001B7968D000EF0595 /* tr.jpg */,
 				096448621AE71DC10042722A /* Info.plist */,
 				096448631AE71DC10042722A /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		0964487A1AE71DC10042722A /* AMPTests */ = {
-			isa = PBXGroup;
-			children = (
-				0964487D1AE71DC20042722A /* AMPTests.m */,
-				0964487B1AE71DC20042722A /* Supporting Files */,
-			);
-			path = AMPTests;
-			sourceTree = "<group>";
-		};
-		0964487B1AE71DC20042722A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				0964487C1AE71DC20042722A /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -214,9 +193,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0964486D1AE71DC10042722A /* Main.storyboard in Resources */,
-				09991B131AEF31EE00585204 /* html_files in Resources */,
 				096448721AE71DC10042722A /* LaunchScreen.xib in Resources */,
 				0964486F1AE71DC10042722A /* Images.xcassets in Resources */,
+				09AE70011B7968D000EF0595 /* tr.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,7 +225,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0964487E1AE71DC20042722A /* AMPTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,12 +340,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Cyndi Miller Public Relations Inc";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cyndi Miller Public Relations Inc";
 				INFOPLIST_FILE = AMP/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b3e5c4ec-07f0-4832-8d5a-feef7c493260";
+				PROVISIONING_PROFILE = "17343802-3775-4323-845f-87661358c22e";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
@@ -376,12 +354,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Cyndi Miller Public Relations Inc";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Cyndi Miller Public Relations Inc";
 				INFOPLIST_FILE = AMP/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b3e5c4ec-07f0-4832-8d5a-feef7c493260";
+				PROVISIONING_PROFILE = "17343802-3775-4323-845f-87661358c22e";
 				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;

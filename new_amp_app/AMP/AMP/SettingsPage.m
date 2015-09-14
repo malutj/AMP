@@ -44,10 +44,10 @@ bool syncing = false;
     self.SyncButton.clipsToBounds = YES;
     
     // update height of progress bars
-    //[self.fileProgress setFrame:CGRectMake(0, 0, 300, 25)];
     [self.fileProgress setTransform:CGAffineTransformMakeScale(1.0, 3.0)];
     [self.overallProgress setTransform:CGAffineTransformMakeScale(1.0, 3.0)];
 }
+
 
 //This method resets all of the UI labels and progress bars
 - (void)ResetLabelsAndProgressBars
@@ -62,6 +62,7 @@ bool syncing = false;
     _overallProgress.hidden = false;
 }
 
+
 - (void)HideLabelsAndProgressBars
 {
     // this clears all the labels
@@ -73,6 +74,7 @@ bool syncing = false;
     _fileProgress.hidden = true;
     _overallProgress.hidden = true;
 }
+
 
 //This method updates the UI labels and progress bars during download
 - (void)UpdateLabelsAndProgressBars:(int)currentFile
@@ -93,8 +95,8 @@ bool syncing = false;
         //reset file progress bar
         self.fileProgress.progress = 0;
     });
-    
 }
+
 
 //This method downloads a list of files from the server
 - (void)DownloadFileList:(NSMutableArray *)download_list
@@ -115,6 +117,7 @@ bool syncing = false;
         }
     }
 }
+
 
 // SYNC BUTTON PRESSED
 - (IBAction)SyncPressed:(UIButton *)sender
@@ -151,10 +154,12 @@ bool syncing = false;
     });
 }
 
+
 //This method asynchronously downloads the specified file.
 - (void)DownloadFile: (NSString *)filename{
     // create the path to which we want to download the file
-    NSString *path = [[NSBundle mainBundle] resourcePath];
+    NSArray *path_array = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = path_array[0];
     path = [path stringByAppendingPathComponent:@"/html_files/"];
     path = [path stringByAppendingPathComponent:[self GetFileName:filename]];
     
@@ -162,8 +167,8 @@ bool syncing = false;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         [self.commManager DownloadFile:filename toPath:path];
     });
-    
 }
+
 
 //This method creates a list of all files in the html_files directory
 //that need to be deleted.
@@ -172,7 +177,8 @@ bool syncing = false;
     NSFileManager *fm = [[NSFileManager alloc] init];
     
     //build the path to the root html_files directory
-    NSString *path = [[NSBundle mainBundle] bundlePath];
+    NSArray *path_array = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = path_array[0];
     path = [path stringByAppendingPathComponent:@"/html_files/"];
     
     NSDirectoryEnumerator *directory = [fm enumeratorAtPath:path];
@@ -201,11 +207,10 @@ bool syncing = false;
                 NSLog(@"Deleting '%@'", file);
                 [fm removeItemAtPath:fullpath error:nil];
             }
-            
-            
         }
     }
 }
+
 
 //This method creates a list of all files on the server that
 //need to be downloaded.
@@ -222,7 +227,8 @@ bool syncing = false;
         NSString *filename = [self GetFileName: file_list[i][0]];
         
         //build the path to the file
-        NSString *path = [[NSBundle mainBundle] bundlePath];
+        NSArray *path_array = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *path = path_array[0];
         path = [path stringByAppendingPathComponent:@"/html_files/"];
         path = [path stringByAppendingPathComponent:filename];
         
@@ -250,6 +256,7 @@ bool syncing = false;
     return download_list;
 }
 
+
 //This method removes the leading directory from the string and returns just the filename
 //ex. "/Common/index.html" returns as "index.html"
 - (NSString *)GetFileName: (NSString *)s{
@@ -263,11 +270,14 @@ bool syncing = false;
     return [s substringFromIndex:index+1];
 }
 
+
 //This method loads and displays the root html file in the html_files folder
 - (void)OpenWebView
 {
     // find the path to the index.html file
-    NSString *filePath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"/html_files/index.html"];
+    NSArray *path_array = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *filePath = path_array[0];
+    filePath = [filePath stringByAppendingPathComponent:@"/html_files/index.html"];
     
     // make sure the file exists
     NSFileManager *fm = [NSFileManager defaultManager];
@@ -286,7 +296,13 @@ bool syncing = false;
         // display the webview
         [self.view addSubview:webView];
     }
+    else
+    {
+        _fileLabel.text = @"index.html doesn't exist";
+        _fileLabel.hidden = false;
+    }
 }
+
 
 //This method is called when the sync process is finished
 - (void)DoneWithSync
@@ -295,6 +311,7 @@ bool syncing = false;
     [self HideLabelsAndProgressBars];
     [self OpenWebView];
 }
+
 
 //This method is called whenever a link is pressed within the web view
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request
