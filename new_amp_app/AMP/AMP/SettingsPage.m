@@ -276,31 +276,40 @@ bool syncing = false;
 {
     // find the path to the index.html file
     NSArray *path_array = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *filePath = path_array[0];
-    filePath = [filePath stringByAppendingPathComponent:@"/html_files/index.html"];
+    NSString *filePath  = path_array[0];
+    NSString *filePath2 = path_array[0];
+    filePath  = [filePath stringByAppendingPathComponent:@"/html_files/index.php"];
+    filePath2 = [filePath stringByAppendingPathComponent:@"/html_files/index.html"];
     
-    // make sure the file exists
+    // check if the index.php file exists
     NSFileManager *fm = [NSFileManager defaultManager];
     if ([fm fileExistsAtPath:filePath])
     {
-        // load the web page
-        [webView loadRequest:[NSURLRequest requestWithURL:
-                              [NSURL fileURLWithPath:filePath]]];
-        
-        // hide the status bar
-        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
-        
-        // add self as the delegate for the webview callbacks
-        [webView setDelegate:self];
-        
-        // display the webview
-        [self.view addSubview:webView];
+        // found it, we're good
+    }
+    // didn't find index.php. check for index.html
+    else if([fm fileExistsAtPath:filePath2])
+    {
+        filePath = filePath2;
     }
     else
     {
-        _fileLabel.text = @"index.html doesn't exist";
+        _fileLabel.text = @"Unable to find root index file";
         _fileLabel.hidden = false;
+        return;
     }
+    
+    // load the web page
+    [webView loadRequest:[NSURLRequest requestWithURL: [NSURL fileURLWithPath:filePath]]];
+        
+    // hide the status bar
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
+        
+    // add self as the delegate for the webview callbacks
+    [webView setDelegate:self];
+        
+    // display the webview
+    [self.view addSubview:webView];
 }
 
 
