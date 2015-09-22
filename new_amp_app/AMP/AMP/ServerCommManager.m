@@ -190,6 +190,7 @@ didReceiveResponse:(NSURLResponse *)response
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    NSLog(@"Just finished saving file %@", file_path);
     [file closeFile];
     _downloading = false;
 }

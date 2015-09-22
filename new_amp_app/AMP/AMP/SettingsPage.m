@@ -20,6 +20,7 @@
 
 @property (nonatomic, assign) BOOL syncing;
 @property (strong, nonatomic) NSString *clientCode;
+@property (weak, nonatomic) IBOutlet UIButton *LaunchButton;
 
 @end
 
@@ -39,13 +40,27 @@ bool syncing = false;
     // initialize the web view
     webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     
-    // update the look of the sync buton
+    // update the look of the sync and launch buttons
     self.SyncButton.layer.cornerRadius = 10;
     self.SyncButton.clipsToBounds = YES;
+    self.LaunchButton.layer.cornerRadius = 10;
+    self.LaunchButton.clipsToBounds = YES;
     
     // update height of progress bars
     [self.fileProgress setTransform:CGAffineTransformMakeScale(1.0, 3.0)];
     [self.overallProgress setTransform:CGAffineTransformMakeScale(1.0, 3.0)];
+    
+    // display the launch button if a root index file is present
+    if ([self RootFileExists])
+    {
+        NSLog(@"Found root file. Making launch visible");
+        self.LaunchButton.hidden = false;
+    }
+    else
+    {
+        NSLog(@"Couldn't find root file. Hiding launch button");
+        self.LaunchButton.hidden = true;
+    }
 }
 
 
@@ -123,6 +138,7 @@ bool syncing = false;
 - (IBAction)SyncPressed:(UIButton *)sender
 {
     self.SyncButton.enabled = false;
+    self.LaunchButton.hidden = true;
     
     //get client code from User settings
     if (self.clientCode == nil){
@@ -133,11 +149,27 @@ bool syncing = false;
     // get the entire list of files for this client
     NSMutableArray *file_list = [self.commManager GetFileList:self.clientCode];
     
+    // make sure our server manager returned something
+    if (file_list == nil)
+    {
+        NSLog(@"GetFileList call returned a null array pointer");
+        [self DoneWithSync];
+        return;
+    }
+    
     // create the list of files we're going to download
     NSMutableArray *download_list = [self GetDownloadList:file_list];
     
     // delete all of the files that are no longer needed
     [self DeleteOldFiles:file_list];
+    
+    // if download list is empty, just skip this part
+    if ([download_list count] == 0)
+    {
+        NSLog(@"No files to download...");
+        [self DoneWithSync];
+        return;
+    }
     
     // reset the labels and progress bars
     [self ResetLabelsAndProgressBars];
@@ -154,6 +186,9 @@ bool syncing = false;
     });
 }
 
+- (IBAction)LaunchPressed:(UIButton *)sender {
+    [self OpenWebView:[self GetRootFileName]];
+}
 
 //This method asynchronously downloads the specified file.
 - (void)DownloadFile: (NSString *)filename{
@@ -233,7 +268,8 @@ bool syncing = false;
         path = [path stringByAppendingPathComponent:filename];
         
         //see if the file exists
-        if ([fm fileExistsAtPath:path]){
+        if ([fm fileExistsAtPath:path])
+        {
             //get mod date of local file
             NSDictionary *file_attributes = [fm attributesOfItemAtPath:path error:nil];
             NSDate *local_mod_time = [file_attributes objectForKey:NSFileModificationDate];
@@ -272,33 +308,8 @@ bool syncing = false;
 
 
 //This method loads and displays the root html file in the html_files folder
-- (void)OpenWebView
+- (void)OpenWebView: (NSString*)filePath
 {
-    // find the path to the index.html file
-    NSArray *path_array = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *filePath  = path_array[0];
-    NSString *filePath2 = path_array[0];
-    filePath  = [filePath stringByAppendingPathComponent:@"/html_files/index.php"];
-    filePath2 = [filePath stringByAppendingPathComponent:@"/html_files/index.html"];
-    
-    // check if the index.php file exists
-    NSFileManager *fm = [NSFileManager defaultManager];
-    if ([fm fileExistsAtPath:filePath])
-    {
-        // found it, we're good
-    }
-    // didn't find index.php. check for index.html
-    else if([fm fileExistsAtPath:filePath2])
-    {
-        filePath = filePath2;
-    }
-    else
-    {
-        _fileLabel.text = @"Unable to find root index file";
-        _fileLabel.hidden = false;
-        return;
-    }
-    
     // load the web page
     [webView loadRequest:[NSURLRequest requestWithURL: [NSURL fileURLWithPath:filePath]]];
         
@@ -312,13 +323,76 @@ bool syncing = false;
     [self.view addSubview:webView];
 }
 
+- (BOOL)RootFileExists
+{
+    // find the path to the index.html file
+    NSArray *path_array = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *filePath  = path_array[0];
+    NSString *filePath2 = path_array[0];
+    filePath  = [filePath stringByAppendingPathComponent:@"/html_files/index.php"];
+    filePath2 = [filePath2 stringByAppendingPathComponent:@"/html_files/index.html"];
+    
+    // check if the index.php file exists
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:filePath])
+    {
+        NSLog(@"Found index.php");
+        return true;
+    }
+    // didn't find index.php. check for index.html
+    else if([fm fileExistsAtPath:filePath2])
+    {
+        NSLog(@"Found index.html");
+        return true;
+    }
+    
+    return false;
+}
+
+
+-(NSString*)GetRootFileName
+{
+    // find the path to the index.html file
+    NSArray *path_array = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *filePath  = path_array[0];
+    NSString *filePath2 = path_array[0];
+    filePath  = [filePath stringByAppendingPathComponent:@"/html_files/index.php"];
+    filePath2 = [filePath2 stringByAppendingPathComponent:@"/html_files/index.html"];
+    
+    // check if the index.php file exists
+    NSFileManager *fm = [NSFileManager defaultManager];
+    if ([fm fileExistsAtPath:filePath])
+    {
+        return filePath;
+    }
+    // didn't find index.php. check for index.html
+    else if([fm fileExistsAtPath:filePath2])
+    {
+        return filePath2;
+    }
+    
+    return nil;
+}
+
 
 //This method is called when the sync process is finished
 - (void)DoneWithSync
 {
+    NSLog(@"Sync finished");
     self.SyncButton.enabled = true;
     [self HideLabelsAndProgressBars];
-    [self OpenWebView];
+    if ([self RootFileExists])
+    {
+        NSLog(@"Root file exists. Enabling launch button");
+        self.LaunchButton.hidden = false;
+    }
+    else
+    {
+        NSLog(@"Couldn't find root file.");
+        self.LaunchButton.hidden = true;
+        _fileLabel.text = @"Unable to find root index file";
+        _fileLabel.hidden = false;
+    }
 }
 
 

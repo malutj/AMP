@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/LoginScreen.m"
-            timestampString = "460944603.206799"
+            timestampString = "464305737.032132"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "-connectButtonPressed:"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AMP/SettingsPage.m"
-            timestampString = "458616017.334147"
+            timestampString = "464573703.355956"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "245"
-            endingLineNumber = "245"
+            startingLineNumber = "281"
+            endingLineNumber = "281"
             landmarkName = "-GetDownloadList:"
             landmarkType = "5">
          </BreakpointContent>

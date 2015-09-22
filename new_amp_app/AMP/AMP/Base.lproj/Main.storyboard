@@ -82,9 +82,27 @@
                                 <color key="textColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E8X-fX-Fti">
+                                <rect key="frame" x="238" y="243" width="125" height="44"/>
+                                <color key="backgroundColor" red="0.57647058819999997" green="0.77647058820000003" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Ij5-lJ-2V0"/>
+                                    <constraint firstAttribute="width" constant="125" id="K0d-mX-CYb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="21"/>
+                                <state key="normal" title="Launch">
+                                    <color key="titleColor" red="0.20000000300000001" green="0.20000000300000001" blue="0.20000000300000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="LaunchPressed:" destination="eqe-mx-tqS" eventType="touchUpInside" id="wby-dU-df4"/>
+                                    <action selector="SyncPressed:" destination="eqe-mx-tqS" eventType="touchUpInside" id="tEO-Zw-WL6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="E8X-fX-Fti" firstAttribute="top" secondItem="WaZ-ZB-F8b" secondAttribute="bottom" constant="19" id="06M-jB-aNO"/>
                             <constraint firstItem="TyH-ws-PNc" firstAttribute="top" secondItem="IRq-FZ-PIU" secondAttribute="bottom" constant="8" id="9T6-NS-RsF"/>
                             <constraint firstAttribute="centerX" secondItem="sRM-UZ-vLz" secondAttribute="centerX" id="Dfh-Yw-huy"/>
                             <constraint firstItem="Xbq-DS-dJr" firstAttribute="leading" secondItem="Gaz-8r-krj" secondAttribute="leading" id="K9O-VV-CAR"/>
@@ -93,6 +111,7 @@
                             <constraint firstItem="Xbq-DS-dJr" firstAttribute="top" secondItem="Gaz-8r-krj" secondAttribute="bottom" constant="8" id="Xxh-SM-lWj"/>
                             <constraint firstItem="Xvz-Zg-cD5" firstAttribute="height" secondItem="8FR-WP-ENm" secondAttribute="height" multiplier="0.15" id="YJr-lJ-Lo4"/>
                             <constraint firstItem="WaZ-ZB-F8b" firstAttribute="top" secondItem="sRM-UZ-vLz" secondAttribute="bottom" multiplier="2" id="Yul-gN-jef"/>
+                            <constraint firstAttribute="centerX" secondItem="E8X-fX-Fti" secondAttribute="centerX" constant="-0.5" id="ZR4-3W-bMk"/>
                             <constraint firstItem="IRq-FZ-PIU" firstAttribute="leading" secondItem="TyH-ws-PNc" secondAttribute="leading" id="dzL-ZK-fvG"/>
                             <constraint firstAttribute="centerX" secondItem="Xbq-DS-dJr" secondAttribute="centerX" id="eVC-pS-0s3"/>
                             <constraint firstItem="IRq-FZ-PIU" firstAttribute="top" secondItem="Xbq-DS-dJr" secondAttribute="bottom" constant="56" id="fH8-iv-oFL"/>
@@ -108,6 +127,7 @@
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="LaunchButton" destination="E8X-fX-Fti" id="gLT-Tm-zDz"/>
                         <outlet property="SyncButton" destination="WaZ-ZB-F8b" id="HP1-Wj-Ndd"/>
                         <outlet property="fileLabel" destination="IRq-FZ-PIU" id="MdY-ib-9MA"/>
                         <outlet property="fileProgress" destination="TyH-ws-PNc" id="crZ-DH-PAv"/>
