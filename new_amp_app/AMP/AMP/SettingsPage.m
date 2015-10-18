@@ -8,6 +8,7 @@
 
 #import "SettingsPage.h"
 #import "ServerCommManager.h"
+#import <QuartzCore/QuartzCore.h>
 
 @interface SettingsPage ()
 @property (strong, nonatomic) ServerCommManager *commManager;
@@ -21,6 +22,8 @@
 @property (nonatomic, assign) BOOL syncing;
 @property (strong, nonatomic) NSString *clientCode;
 @property (weak, nonatomic) IBOutlet UIButton *LaunchButton;
+@property (weak, nonatomic) IBOutlet UILabel *filePercentage;
+@property (weak, nonatomic) IBOutlet UILabel *overallPercentage;
 
 @end
 
@@ -36,15 +39,21 @@ bool syncing = false;
     // initialize the server communication manager
     self.commManager = [[ServerCommManager alloc]init];
     self.commManager.progressBarToUpdate = self.fileProgress;
+    self.commManager.percentageToUpdate = self.filePercentage;
     
     // initialize the web view
     webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     
     // update the look of the sync and launch buttons
-    self.SyncButton.layer.cornerRadius = 10;
+    self.SyncButton.layer.cornerRadius = 8;
     self.SyncButton.clipsToBounds = YES;
-    self.LaunchButton.layer.cornerRadius = 10;
+    [self.SyncButton setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.SyncButton.titleLabel.shadowOffset = CGSizeMake(-1.5,1.5);
+    
+    self.LaunchButton.layer.cornerRadius = 8;
     self.LaunchButton.clipsToBounds = YES;
+    [self.LaunchButton setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.LaunchButton.titleLabel.shadowOffset = CGSizeMake(-1.5,1.5);
     
     // update height of progress bars
     [self.fileProgress setTransform:CGAffineTransformMakeScale(1.0, 3.0)];
@@ -75,6 +84,10 @@ bool syncing = false;
     _fileProgress.hidden = false;
     _overallProgress.progress = 0.0;
     _overallProgress.hidden = false;
+    _overallPercentage.hidden = false;
+    _overallPercentage.text = @"0%%";
+    _filePercentage.hidden = false;
+    _filePercentage.text = @"0%%";
 }
 
 
@@ -88,6 +101,8 @@ bool syncing = false;
     _overallLabel.hidden = true;
     _fileProgress.hidden = true;
     _overallProgress.hidden = true;
+    _filePercentage.hidden = true;
+    _overallPercentage.hidden = true;
 }
 
 
@@ -104,11 +119,18 @@ bool syncing = false;
         //update overall progress bar
         self.overallProgress.progress = (double)(currentFile)/totalFiles;
         
+        //update overall percentage
+        self.overallPercentage.text = [[NSString alloc]initWithFormat:@"%d%%", currentFile/totalFiles];
+        
         //update file label
         self.fileLabel.text = filename;
         
         //reset file progress bar
         self.fileProgress.progress = 0;
+        
+        //reset file percentage
+        self.filePercentage.text = @"0%%";
+        
     });
 }
 

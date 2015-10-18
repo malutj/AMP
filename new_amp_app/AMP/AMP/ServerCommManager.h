@@ -16,6 +16,7 @@
 @property (nonatomic) NSUInteger receivedBytes;
 @property (nonatomic) BOOL downloading;
 @property (nonatomic) UIProgressView *progressBarToUpdate;
+@property (nonatomic) UILabel *percentageToUpdate;
 
 -(BOOL)LoginWithClientCode:(NSString*)clientCode
         AndReturnMessage:(NSString**)returnMessage;

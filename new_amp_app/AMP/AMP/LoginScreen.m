@@ -10,14 +10,17 @@
 #import "ServerCommManager.h"
 #import "SettingsPage.h"
 
+
 @interface LoginScreen ()
 
 @property (weak, nonatomic) IBOutlet UITextField *clientCodeField;
 @property (weak, nonatomic) IBOutlet UILabel *response;
 @property (strong, nonatomic) ServerCommManager *commManager;
-@property (weak, nonatomic) IBOutlet UIButton *connectButton;
-
 @property (weak, nonatomic) IBOutlet UIImageView *tr;
+@property (weak, nonatomic) IBOutlet UILabel *loginLabel;
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UILabel *demoLabel;
+
 @end
 
 @implementation LoginScreen
@@ -25,11 +28,36 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _commManager = [[ServerCommManager alloc]init];
-    // Do any additional setup after loading the view, typically from a nib.
     
-    // update the look of the sync buton
-    self.connectButton.layer.cornerRadius = 10;
-    self.connectButton.clipsToBounds = YES;
+    // clear the error text
+    self.response.text = @"";
+    
+    // update the look of the login buton
+    self.loginButton.layer.cornerRadius = 8;
+    self.loginButton.clipsToBounds = YES;
+    [self.loginButton setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
+    self.loginButton.titleLabel.shadowOffset = CGSizeMake(-1.5, 1.5);
+    
+    // update the look of the main login label
+    NSMutableAttributedString* loginString = [[NSMutableAttributedString alloc] initWithString:@"Login to AMP"];
+
+    [loginString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:32.0] range:NSMakeRange(9,3)];
+    [loginString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.51 green:.16 blue:.50 alpha:1.0] range:NSMakeRange(9,3)];
+    self.loginLabel.attributedText = loginString;
+    
+    // update demo label
+    NSMutableAttributedString* demoString = [[NSMutableAttributedString alloc] initWithString:@"Login with username: \"demo\" and password: \"ac7a25\""];
+    
+    UIFont* demoFont = [UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:17.0];
+    NSRange demoUsername = NSMakeRange(21, 6);
+    NSRange demoPassword = NSMakeRange(42, 8);
+
+    [demoString addAttribute:NSFontAttributeName value:demoFont range:demoUsername];
+    [demoString addAttribute:NSFontAttributeName value:demoFont range:demoPassword];
+    [demoString addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:demoUsername];
+    [demoString addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:demoPassword];
+    
+    self.demoLabel.attributedText = demoString;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,7 +65,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (IBAction)connectButtonPressed:(UIButton *)sender {
+- (IBAction)loginButtonPressed:(UIButton *)sender {
     NSString *clientCode = self.clientCodeField.text;
     if([clientCode length]==0){
         _response.text = @"Please enter a client code";
