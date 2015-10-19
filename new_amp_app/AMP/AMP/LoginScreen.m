@@ -111,28 +111,6 @@
             return;
         }
         
-        /*
-        NSLog(@"messing with navigation controller");
-        //close this view and open settings page
-        UINavigationController *navController = self.navigationController;
-        NSMutableArray *activeViews = [[NSMutableArray alloc] initWithArray: navController.viewControllers];
-        NSLog(@"removing last view from array");
-        [activeViews removeLastObject];
-        
-        NSLog(@"Setting the navigation controllers list of views");
-        [navController setViewControllers:activeViews];
-        
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        NSLog(@"Getting settings page view");
-        UIViewController *settingsPage = [storyboard instantiateViewControllerWithIdentifier:@"SettingsPage"];
-        NSLog(@"Pushing view");
-        [navController pushViewController:settingsPage animated:YES];
-        NSLog(@"Pushed!");
-        
-        [self dismissViewControllerAnimated:YES completion:nil];
-        NSLog(@"should be closed");
-         */
-        
         NSLog(@"Presenting the settings page");
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UIViewController *settingsPage = [storyboard instantiateViewControllerWithIdentifier:@"SettingsPage"];

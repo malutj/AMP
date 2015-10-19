@@ -183,8 +183,8 @@ didReceiveResponse:(NSURLResponse *)response
     //update progress bar
     double progress = (double)self.receivedBytes / self.totalBytes;
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.progressBarToUpdate setProgress:progress animated:YES];
-        self.percentageToUpdate.text = [[NSString alloc] initWithFormat:@"%d%%", (int)progress];
+        [self.progressBarToUpdate setProgress:progress animated:NO];
+        self.percentageToUpdate.text = [[NSString alloc] initWithFormat:@"%d%%", (int)(progress*100)];
     });
     
 }

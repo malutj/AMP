@@ -16,6 +16,12 @@
 		097B55561AEF1E6300817DEF /* ServerCommManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 097B55551AEF1E6300817DEF /* ServerCommManager.m */; };
 		09991B0E1AEF2C1100585204 /* SettingsPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 09991B0D1AEF2C1100585204 /* SettingsPage.m */; };
 		09AE70011B7968D000EF0595 /* tr.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 09AE70001B7968D000EF0595 /* tr.jpg */; };
+		09AE70051BD4362900EF0595 /* miller_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 09AE70041BD4362900EF0595 /* miller_logo.png */; };
+		09AE70071BD443C600EF0595 /* AMP_header.png in Resources */ = {isa = PBXBuildFile; fileRef = 09AE70061BD443C600EF0595 /* AMP_header.png */; };
+		09AE70091BD445FE00EF0595 /* SplashScreen.m in Sources */ = {isa = PBXBuildFile; fileRef = 09AE70081BD445FE00EF0595 /* SplashScreen.m */; };
+		09AE700E1BD485CD00EF0595 /* left_video.png in Resources */ = {isa = PBXBuildFile; fileRef = 09AE700B1BD485CD00EF0595 /* left_video.png */; };
+		09AE700F1BD485CD00EF0595 /* middle_video.png in Resources */ = {isa = PBXBuildFile; fileRef = 09AE700C1BD485CD00EF0595 /* middle_video.png */; };
+		09AE70101BD485CD00EF0595 /* right_video.png in Resources */ = {isa = PBXBuildFile; fileRef = 09AE700D1BD485CD00EF0595 /* right_video.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +51,13 @@
 		09991B0D1AEF2C1100585204 /* SettingsPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsPage.m; sourceTree = "<group>"; };
 		09991B0F1AEF2C2700585204 /* SettingsPage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsPage.h; sourceTree = "<group>"; };
 		09AE70001B7968D000EF0595 /* tr.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tr.jpg; sourceTree = "<group>"; };
+		09AE70041BD4362900EF0595 /* miller_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = miller_logo.png; sourceTree = "<group>"; };
+		09AE70061BD443C600EF0595 /* AMP_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AMP_header.png; sourceTree = "<group>"; };
+		09AE70081BD445FE00EF0595 /* SplashScreen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashScreen.m; sourceTree = "<group>"; };
+		09AE700A1BD470B900EF0595 /* SplashScreen.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SplashScreen.h; sourceTree = "<group>"; };
+		09AE700B1BD485CD00EF0595 /* left_video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = left_video.png; sourceTree = "<group>"; };
+		09AE700C1BD485CD00EF0595 /* middle_video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = middle_video.png; sourceTree = "<group>"; };
+		09AE700D1BD485CD00EF0595 /* right_video.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = right_video.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +110,8 @@
 				096448611AE71DC10042722A /* Supporting Files */,
 				09991B0D1AEF2C1100585204 /* SettingsPage.m */,
 				09991B0F1AEF2C2700585204 /* SettingsPage.h */,
+				09AE70081BD445FE00EF0595 /* SplashScreen.m */,
+				09AE700A1BD470B900EF0595 /* SplashScreen.h */,
 			);
 			path = AMP;
 			sourceTree = "<group>";
@@ -104,6 +119,11 @@
 		096448611AE71DC10042722A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				09AE700B1BD485CD00EF0595 /* left_video.png */,
+				09AE700C1BD485CD00EF0595 /* middle_video.png */,
+				09AE700D1BD485CD00EF0595 /* right_video.png */,
+				09AE70061BD443C600EF0595 /* AMP_header.png */,
+				09AE70041BD4362900EF0595 /* miller_logo.png */,
 				09AE70001B7968D000EF0595 /* tr.jpg */,
 				096448621AE71DC10042722A /* Info.plist */,
 				096448631AE71DC10042722A /* main.m */,
@@ -192,9 +212,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09AE700F1BD485CD00EF0595 /* middle_video.png in Resources */,
 				0964486D1AE71DC10042722A /* Main.storyboard in Resources */,
 				096448721AE71DC10042722A /* LaunchScreen.xib in Resources */,
 				0964486F1AE71DC10042722A /* Images.xcassets in Resources */,
+				09AE70071BD443C600EF0595 /* AMP_header.png in Resources */,
+				09AE70051BD4362900EF0595 /* miller_logo.png in Resources */,
+				09AE700E1BD485CD00EF0595 /* left_video.png in Resources */,
+				09AE70101BD485CD00EF0595 /* right_video.png in Resources */,
 				09AE70011B7968D000EF0595 /* tr.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -213,6 +238,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				09AE70091BD445FE00EF0595 /* SplashScreen.m in Sources */,
 				097B55561AEF1E6300817DEF /* ServerCommManager.m in Sources */,
 				0964486A1AE71DC10042722A /* LoginScreen.m in Sources */,
 				096448671AE71DC10042722A /* AppDelegate.m in Sources */,

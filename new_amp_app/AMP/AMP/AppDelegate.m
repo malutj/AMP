@@ -29,7 +29,7 @@
         viewController = [storyboard instantiateViewControllerWithIdentifier:@"SettingsPage"];
     }
     else{
-        viewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
+        viewController = [storyboard instantiateViewControllerWithIdentifier:@"SplashScreen"];
     }
     
     self.window.rootViewController = viewController;

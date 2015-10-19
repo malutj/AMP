@@ -114,13 +114,13 @@ bool syncing = false;
     dispatch_async(dispatch_get_main_queue(), ^{
         
         //update overall label
-        self.overallLabel.text = [[NSString alloc] initWithFormat:@"Downloading %d/%d...", currentFile, totalFiles];
+        self.overallLabel.text = [[NSString alloc] initWithFormat:@"Downloading %d/%d", currentFile, totalFiles];
         
         //update overall progress bar
         self.overallProgress.progress = (double)(currentFile)/totalFiles;
         
         //update overall percentage
-        self.overallPercentage.text = [[NSString alloc]initWithFormat:@"%d%%", currentFile/totalFiles];
+        self.overallPercentage.text = [[NSString alloc]initWithFormat:@"%d%%", ((currentFile-1)*100)/totalFiles];
         
         //update file label
         self.fileLabel.text = filename;
@@ -129,7 +129,7 @@ bool syncing = false;
         self.fileProgress.progress = 0;
         
         //reset file percentage
-        self.filePercentage.text = @"0%%";
+        self.filePercentage.text = @"0%";
         
     });
 }
@@ -150,7 +150,7 @@ bool syncing = false;
 
         // wait for this download to finish before starting the next
         while (self.commManager.downloading == true) {
-            [NSThread sleepForTimeInterval:1.5];
+            [NSThread sleepForTimeInterval:.5];
         }
     }
 }
