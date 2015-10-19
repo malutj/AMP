@@ -11,8 +11,9 @@
 
 @interface SplashScreen()
 @property (weak, nonatomic) IBOutlet UIButton *learnMoreButton;
-
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UILabel *questionLabel;
+@property (weak, nonatomic) IBOutlet UILabel *leadsLabel;
 
 
 @end
@@ -33,6 +34,19 @@
     [self.loginButton setTitleShadowColor:[UIColor grayColor] forState:UIControlStateNormal];
     self.loginButton.titleLabel.shadowOffset = CGSizeMake(-1.5,1.5);
 
+    // update the leads label
+    NSMutableAttributedString* leadsString = [[NSMutableAttributedString alloc] initWithString:@"And Convert More Leads into Patients"];
+    
+    [leadsString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:32.0] range:NSMakeRange(4,18)];
+    [leadsString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.51 green:.16 blue:.50 alpha:1.0] range:NSMakeRange(4,18)];
+    self.leadsLabel.attributedText = leadsString;
+    
+    // update the question label
+    NSMutableAttributedString* questionString = [[NSMutableAttributedString alloc] initWithString:@"Ready to AMP up your practice?"];
+    
+    [questionString addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"HelveticaNeue-CondensedBold" size:28.0] range:NSMakeRange(9,3)];
+    [questionString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:0.51 green:.16 blue:.50 alpha:1.0] range:NSMakeRange(9,3)];
+    self.questionLabel.attributedText = questionString;
 }
 
 

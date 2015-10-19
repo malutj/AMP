@@ -150,7 +150,7 @@ bool syncing = false;
 
         // wait for this download to finish before starting the next
         while (self.commManager.downloading == true) {
-            [NSThread sleepForTimeInterval:.5];
+            [NSThread sleepForTimeInterval:0.2];
         }
     }
 }
