@@ -38,7 +38,7 @@
 
 - (IBAction)learnMorePressed:(UIButton *)sender
 {
-    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http:ampupmypractice.com"]];
 }
 
 - (IBAction)loginPressed:(UIButton *)sender
@@ -46,6 +46,20 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *loginPage = [storyboard instantiateViewControllerWithIdentifier:@"LoginScreen"];
     [self presentViewController:loginPage animated:YES completion:nil];
+}
+
+- (IBAction)leftVideoPressed:(UIButton *)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://d.pr/v/14G1Y"]];
+
+}
+- (IBAction)middleVideoPressed:(UIButton *)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://d.pr/v/S8eM"]];
+}
+- (IBAction)rightVideoPressed:(UIButton *)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://d.pr/v/11mUd"]];
 }
 
 
