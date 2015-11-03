@@ -7,6 +7,7 @@
 //
 
 #import "ServerCommManager.h"
+@import Foundation;
 
 @implementation ServerCommManager
 
@@ -19,16 +20,38 @@ NSUInteger receivedBytes;
 NSMutableData *fileData;
 NSString *file_name;
 NSString *file_path;
+NSString *temp_path;
 NSFileHandle *file;
+NSURLConnection *connection;
+NSTimer *timer;
+NSLock *connectionLock;
+bool connectionClosed;
+const int DOWNLOAD_TIMEOUT = 8;
 
 -(id)init
 {
     self = [super init];
     base_url = [[NSURL alloc] initWithString: server];
+    connectionLock = [NSLock new];
     _downloading = false;
     return self;
 }
+             
+-(void)TimerDidExpire
+{
+    [connectionLock lock];
+    connectionClosed = true;
+    NSLog(@"Closing connection");
+    [connection cancel];
+    NSLog(@"Closing the file");
+    [file closeFile];
+    NSLog(@"Deleting the file");
+    [[NSFileManager defaultManager] removeItemAtPath:temp_path error:nil];
+    [self DownloadFile:file_name toPath:file_path];
+    [connectionLock unlock];
+}
 
+             
 
 -(BOOL)LoginWithClientCode:(NSString*)clientCode
         AndReturnMessage:(NSString**)returnMessage
@@ -132,12 +155,11 @@ NSFileHandle *file;
     NSString *body = [NSString stringWithFormat:@"app_code=%@&file=%@", app_code, filename];
     [req setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[body length]] forHTTPHeaderField:@"Content-Length"];
     [req setHTTPBody:[body dataUsingEncoding:NSUTF8StringEncoding]];
-
     
-    
-    NSURLConnection *connection = [[NSURLConnection alloc ]initWithRequest:req delegate:self startImmediately:NO];
+    connection = [[NSURLConnection alloc ]initWithRequest:req delegate:self startImmediately:NO];
     [connection scheduleInRunLoop:[NSRunLoop mainRunLoop] forMode:NSDefaultRunLoopMode];
     [connection start];
+    connectionClosed = false;
 
     return true;
 }
@@ -153,28 +175,52 @@ didReceiveResponse:(NSURLResponse *)response
     NSNumber *length = [formatter numberFromString:lengthString];
     self.totalBytes = length.unsignedIntegerValue;
 
-    
     //find the file in the directory and save it in a file variable
     file = [NSFileHandle fileHandleForWritingAtPath:file_path];
     if (file)
     {
+        // instead delete file
+        [[NSFileManager defaultManager] removeItemAtPath:file_path error:nil];
+    }
+
+    // try to create the directories for the new file in case they're missing
+    NSString *directories = [file_path stringByDeletingLastPathComponent];
+    [[NSFileManager defaultManager] createDirectoryAtPath:directories withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    // create the new file with a temporary prefix
+    temp_path = [file_path stringByDeletingLastPathComponent];
+    NSString *temp_name = [file_path lastPathComponent];
+    temp_path = [NSString stringWithFormat:@"%@/Jason__%@",temp_path, temp_name];
+
+    [[NSFileManager defaultManager] createFileAtPath:temp_path contents:nil attributes:nil];
+    file = [NSFileHandle fileHandleForWritingAtPath:temp_path];
+    
+    if (file)
+    {
         [file truncateFileAtOffset:0];
     }
-    else
-    {
-        // try to create the directories for the new file in case they're missing
-        NSString *directories = [file_path stringByDeletingLastPathComponent];
-        [[NSFileManager defaultManager] createDirectoryAtPath:directories withIntermediateDirectories:YES attributes:nil error:nil];
-        
-        // create the new file
-        [[NSFileManager defaultManager] createFileAtPath:file_path contents:nil attributes:nil];
-        file = [NSFileHandle fileHandleForWritingAtPath:file_path];
-    }
+    
+    // start our download timer
+    timer = [NSTimer scheduledTimerWithTimeInterval:DOWNLOAD_TIMEOUT target:self selector:@selector(TimerDidExpire) userInfo:nil repeats:false];
 }
 
 - (void)connection:(NSURLConnection *)connection
     didReceiveData:(NSData *)data
 {
+    [connectionLock lock];
+    if (connectionClosed)
+    {
+        NSLog(@"connection already closed. Resetting progress bar and returning.");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.progressBarToUpdate setProgress:0 animated:NO];
+            self.percentageToUpdate.text = [[NSString alloc] initWithFormat:@"%d%%", 0];
+        });
+        return;
+    }
+    
+    //stop our timer
+    [timer invalidate];
+    
     //save to file here
     [file writeData:data];
     
@@ -187,13 +233,23 @@ didReceiveResponse:(NSURLResponse *)response
         self.percentageToUpdate.text = [[NSString alloc] initWithFormat:@"%d%%", (int)(progress*100)];
     });
     
+    //create new timer
+    timer = [NSTimer scheduledTimerWithTimeInterval:DOWNLOAD_TIMEOUT target:self selector:@selector(TimerDidExpire) userInfo:nil repeats:false];
+    
+    [connectionLock unlock];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    NSLog(@"Just finished saving file %@", file_path);
+    [connectionLock lock];
+    if (connectionClosed)
+        return;
+    [timer invalidate];
+    NSLog(@"Just finished saving file %@", file_name);
     [file closeFile];
+    [[NSFileManager defaultManager] moveItemAtPath:temp_path toPath:file_path error:nil];
     _downloading = false;
+    [connectionLock unlock];
 }
 
 

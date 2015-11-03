@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -26,7 +27,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WaZ-ZB-F8b">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WaZ-ZB-F8b">
                                 <rect key="frame" x="238" y="180" width="125" height="44"/>
                                 <color key="backgroundColor" red="0.57647058823529407" green="0.77647058823529413" blue="0.28627450980392155" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -41,7 +42,7 @@
                                     <action selector="SyncPressed:" destination="eqe-mx-tqS" eventType="touchUpInside" id="yEI-KL-e66"/>
                                 </connections>
                             </button>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E8X-fX-Fti">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E8X-fX-Fti">
                                 <rect key="frame" x="238" y="243" width="125" height="44"/>
                                 <color key="backgroundColor" red="0.57647058819999997" green="0.77647058820000003" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -58,14 +59,14 @@
                                     <action selector="SyncPressed:" destination="eqe-mx-tqS" eventType="touchUpInside" id="tEO-Zw-WL6"/>
                                 </connections>
                             </button>
-                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Xbq-DS-dJr">
+                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Xbq-DS-dJr">
                                 <rect key="frame" x="225" y="307" width="150" height="2"/>
                                 <color key="tintColor" red="0.57647058819999997" green="0.77647058820000003" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="7cc-wI-V68"/>
                                 </constraints>
                             </progressView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gaz-8r-krj">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gaz-8r-krj">
                                 <rect key="frame" x="225" y="278" width="350" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="350" id="bh3-tD-Mno"/>
@@ -75,14 +76,14 @@
                                 <color key="textColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="TyH-ws-PNc">
+                            <progressView hidden="YES" opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" misplaced="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="TyH-ws-PNc">
                                 <rect key="frame" x="225" y="394" width="150" height="2"/>
                                 <color key="tintColor" red="0.57647058819999997" green="0.77647058820000003" blue="0.28627450980000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="uOA-aW-WBc"/>
                                 </constraints>
                             </progressView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IRq-FZ-PIU">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IRq-FZ-PIU">
                                 <rect key="frame" x="225" y="365" width="350" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="350" id="g6C-pk-VoX"/>
@@ -92,13 +93,13 @@
                                 <color key="textColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OverallProgress" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cm1-Bg-ofG">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="OverallProgress" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cm1-Bg-ofG">
                                 <rect key="frame" x="281" y="317" width="39" height="22"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FileProgress" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PJR-9b-XFz">
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="FileProgress" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PJR-9b-XFz">
                                 <rect key="frame" x="281" y="404" width="39" height="22"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="18"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -174,13 +175,13 @@
                                 <exclude reference="vvX-rY-3Ib"/>
                             </mask>
                             <mask key="constraints">
+                                <exclude reference="CBV-Pt-uW1"/>
+                                <exclude reference="i50-Lj-hx0"/>
                                 <exclude reference="GZr-Fd-ioc"/>
                                 <exclude reference="dqz-ET-hJc"/>
                                 <exclude reference="dvX-lZ-fds"/>
                                 <exclude reference="uXk-DQ-XYa"/>
                                 <exclude reference="Hft-A3-xLQ"/>
-                                <exclude reference="CBV-Pt-uW1"/>
-                                <exclude reference="i50-Lj-hx0"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular">
@@ -189,18 +190,19 @@
                                 <include reference="vvX-rY-3Ib"/>
                             </mask>
                             <mask key="constraints">
+                                <include reference="CBV-Pt-uW1"/>
+                                <include reference="i50-Lj-hx0"/>
                                 <include reference="GZr-Fd-ioc"/>
                                 <include reference="dqz-ET-hJc"/>
                                 <include reference="dvX-lZ-fds"/>
                                 <include reference="uXk-DQ-XYa"/>
                                 <include reference="Hft-A3-xLQ"/>
-                                <include reference="CBV-Pt-uW1"/>
-                                <include reference="i50-Lj-hx0"/>
                             </mask>
                         </variation>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="LaunchButton" destination="E8X-fX-Fti" id="gLT-Tm-zDz"/>
                         <outlet property="SyncButton" destination="WaZ-ZB-F8b" id="HP1-Wj-Ndd"/>
@@ -246,13 +248,13 @@
                                 <color key="textColor" red="0.50980392156862742" green="0.15686274509803921" blue="0.50980392156862742" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PASSWORD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jXw-q8-hKS">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="PASSWORD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jXw-q8-hKS">
                                 <rect key="frame" x="262" y="253" width="77" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" red="0.51372549019607838" green="0.16078431372549021" blue="0.50980392156862742" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USERNAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OMZ-DS-v2u">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="USERNAME" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OMZ-DS-v2u">
                                 <rect key="frame" x="262" y="189" width="76" height="21"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-CondensedBold" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" red="0.51372549019607838" green="0.16078431372549018" blue="0.50980392156862742" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -290,13 +292,13 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Login to AMP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="me8-3x-bGQ">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Login to AMP" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="me8-3x-bGQ">
                                 <rect key="frame" x="202" y="125" width="196" height="38"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="32"/>
                                 <color key="textColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iin-Ln-BoC">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iin-Ln-BoC">
                                 <rect key="frame" x="213" y="209" width="175" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="2mS-RW-du6"/>
@@ -429,6 +431,7 @@
                         </variation>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="clientCodeField" destination="M2u-J2-ZuY" id="gOq-1T-PU9"/>
                         <outlet property="demoLabel" destination="FkC-Zc-u3k" id="Jqm-93-rie"/>
@@ -599,14 +602,14 @@
                                 </state>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="3Xd-py-hD5"/>
                                         <exclude reference="2Tn-Lo-Egu"/>
+                                        <exclude reference="3Xd-py-hD5"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular">
                                     <mask key="constraints">
-                                        <include reference="3Xd-py-hD5"/>
                                         <include reference="2Tn-Lo-Egu"/>
+                                        <include reference="3Xd-py-hD5"/>
                                     </mask>
                                 </variation>
                                 <connections>
@@ -707,33 +710,33 @@
                                 <exclude reference="3hM-pJ-jPl"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="MNH-1b-SZB"/>
-                                <exclude reference="Y2u-pd-M31"/>
-                                <exclude reference="iXO-rm-tjm"/>
-                                <exclude reference="uY4-cP-0gy"/>
-                                <exclude reference="ETP-aU-P8A"/>
-                                <exclude reference="ALB-A9-B3R"/>
-                                <exclude reference="IsW-sk-8eW"/>
-                                <exclude reference="Kmd-H0-Azp"/>
+                                <exclude reference="FME-U3-To2"/>
+                                <exclude reference="A33-Di-6sR"/>
                                 <exclude reference="20I-3D-0sO"/>
                                 <exclude reference="ixk-HG-MP6"/>
                                 <exclude reference="ziA-q0-n0p"/>
-                                <exclude reference="A33-Di-6sR"/>
+                                <exclude reference="ALB-A9-B3R"/>
+                                <exclude reference="IsW-sk-8eW"/>
+                                <exclude reference="Kmd-H0-Azp"/>
+                                <exclude reference="ETP-aU-P8A"/>
+                                <exclude reference="2pe-rR-R8N"/>
+                                <exclude reference="6OG-OM-eN2"/>
+                                <exclude reference="ZM6-8S-TOX"/>
+                                <exclude reference="a8t-9B-PwD"/>
                                 <exclude reference="gZy-NC-Vwv"/>
                                 <exclude reference="wVZ-Ih-MIK"/>
                                 <exclude reference="PRe-wG-fRn"/>
                                 <exclude reference="REQ-Fx-HTN"/>
                                 <exclude reference="lI2-r0-SG7"/>
-                                <exclude reference="2pe-rR-R8N"/>
-                                <exclude reference="6OG-OM-eN2"/>
-                                <exclude reference="ZM6-8S-TOX"/>
-                                <exclude reference="a8t-9B-PwD"/>
                                 <exclude reference="UnX-a5-TcG"/>
-                                <exclude reference="FME-U3-To2"/>
-                                <exclude reference="CAz-GL-UpF"/>
-                                <exclude reference="HUY-Yr-uDb"/>
+                                <exclude reference="MNH-1b-SZB"/>
+                                <exclude reference="Y2u-pd-M31"/>
+                                <exclude reference="iXO-rm-tjm"/>
+                                <exclude reference="uY4-cP-0gy"/>
                                 <exclude reference="Ahd-f9-qUX"/>
                                 <exclude reference="sux-Re-ArF"/>
+                                <exclude reference="CAz-GL-UpF"/>
+                                <exclude reference="HUY-Yr-uDb"/>
                             </mask>
                         </variation>
                         <variation key="heightClass=regular">
@@ -752,37 +755,38 @@
                                 <include reference="3hM-pJ-jPl"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="MNH-1b-SZB"/>
-                                <include reference="Y2u-pd-M31"/>
-                                <include reference="iXO-rm-tjm"/>
-                                <include reference="uY4-cP-0gy"/>
-                                <include reference="ETP-aU-P8A"/>
-                                <include reference="ALB-A9-B3R"/>
-                                <include reference="IsW-sk-8eW"/>
-                                <include reference="Kmd-H0-Azp"/>
+                                <include reference="FME-U3-To2"/>
+                                <include reference="A33-Di-6sR"/>
                                 <include reference="20I-3D-0sO"/>
                                 <include reference="ixk-HG-MP6"/>
                                 <include reference="ziA-q0-n0p"/>
-                                <include reference="A33-Di-6sR"/>
+                                <include reference="ALB-A9-B3R"/>
+                                <include reference="IsW-sk-8eW"/>
+                                <include reference="Kmd-H0-Azp"/>
+                                <include reference="ETP-aU-P8A"/>
+                                <include reference="2pe-rR-R8N"/>
+                                <include reference="6OG-OM-eN2"/>
+                                <include reference="ZM6-8S-TOX"/>
+                                <include reference="a8t-9B-PwD"/>
                                 <include reference="gZy-NC-Vwv"/>
                                 <include reference="wVZ-Ih-MIK"/>
                                 <include reference="PRe-wG-fRn"/>
                                 <include reference="REQ-Fx-HTN"/>
                                 <include reference="lI2-r0-SG7"/>
-                                <include reference="2pe-rR-R8N"/>
-                                <include reference="6OG-OM-eN2"/>
-                                <include reference="ZM6-8S-TOX"/>
-                                <include reference="a8t-9B-PwD"/>
                                 <include reference="UnX-a5-TcG"/>
-                                <include reference="FME-U3-To2"/>
-                                <include reference="CAz-GL-UpF"/>
-                                <include reference="HUY-Yr-uDb"/>
+                                <include reference="MNH-1b-SZB"/>
+                                <include reference="Y2u-pd-M31"/>
+                                <include reference="iXO-rm-tjm"/>
+                                <include reference="uY4-cP-0gy"/>
                                 <include reference="Ahd-f9-qUX"/>
                                 <include reference="sux-Re-ArF"/>
+                                <include reference="CAz-GL-UpF"/>
+                                <include reference="HUY-Yr-uDb"/>
                             </mask>
                         </variation>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
                     <connections>
                         <outlet property="leadsLabel" destination="9Fh-m3-F7A" id="aS8-OW-rR6"/>
                         <outlet property="learnMoreButton" destination="lrj-Wd-aC4" id="9ex-rU-Alh"/>
